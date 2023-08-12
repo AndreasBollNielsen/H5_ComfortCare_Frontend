@@ -1,81 +1,51 @@
 import 'package:flutter/material.dart';
-import 'pages/LoginPage.dart';
+import 'pages/LoginPage.dart'; // Import your LoginPage or use the appropriate path
+import 'Widgets/MainPageContent.dart'; // Import your CommonLayout or use the appropriate path
+import 'pages/WorkSchedulePage.dart';
+
 
 void main() {
-  runApp(const ComfortCareApp());
+  runApp(MyApp());
 }
 
-class ComfortCareApp extends StatelessWidget {
-  const ComfortCareApp({super.key});
+class MyApp extends StatelessWidget {
+  bool isUserLoggedIn =
+      true; // Set this value based on user authentication status
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Comfort Care',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+        primaryColor: Color(0xFF8FD19E), // Set primary color to #8FD19E
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.green, // Use green swatch for primary color
+        ),
+        appBarTheme: AppBarTheme(),
       ),
-      home: const ComfortCareHomePage(title: 'Comfort Care'),
+      initialRoute: isUserLoggedIn ? '/mainPage' : '/login', // Set initial route based on user authentication
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/mainPage': (context) => CommonLayout(content: WorkSchedulePage()),
+        // Add more routes for other subpages
+      },
     );
   }
 }
 
-class ComfortCareHomePage extends StatefulWidget {
-  const ComfortCareHomePage({super.key, required this.title});
+class MainPage extends StatelessWidget {
+  final bool isLoggedIn;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  MainPage({required this.isLoggedIn});
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<ComfortCareHomePage> createState() => _ComfortCareHomePageState();
-}
-
-class _ComfortCareHomePageState extends State<ComfortCareHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the ComfortCareHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: LoginPage(),
+    return CommonLayout(
+      content: Container(
+          // Add your changing content here
+          ),
+      showBackButton: false,
+      isLoggedIn: isLoggedIn,
     );
   }
 }

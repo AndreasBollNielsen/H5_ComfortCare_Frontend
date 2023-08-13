@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Widgets/MainPageContent.dart';
-import '../Widgets/TaskCard.dart';
-import '../Model/Task.dart';
+import '../Widgets/MainPageContent.dart'; // Import your MainPageContent widget
+import '../Widgets/TaskCard.dart'; // Import your TaskCard widget
+import '../Model/Task.dart'; // Import your Task model
 
 class DaySchedulePage extends StatelessWidget {
   final int dayIndex;
@@ -16,9 +16,12 @@ class DaySchedulePage extends StatelessWidget {
     return MainPageContent(
       content: ListView(
         children: [
-          for (Task task in tasks) TaskCard(task),
+          for (Task task in tasks)
+            TaskCard(task: task), // Use the TaskCard widget for each task
         ],
       ),
+      showBackButton: true,
+      isLoggedIn: true,
     );
   }
 
@@ -26,20 +29,35 @@ class DaySchedulePage extends StatelessWidget {
   String getDayName(int index) {
     final now = DateTime.now();
     final dayIndex = (now.weekday + index) % 7;
-    return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dayIndex];
+    return [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ][dayIndex];
   }
 
   List<Task> getTasksForDay(int index) {
-    // Simulate fetching tasks from a data source
-    return List.generate(
-      15,
-      (index) => Task(
-        title: 'Task ${index + 1}',
-        time: '08:00 - 08:30',
-        street: '123 Street',
-        zipcode: '12345',
-        city: 'City A',
+    final now = DateTime.now();
+    final dayIndex = (now.weekday + index) % 7;
+
+    // Replace this with your logic to fetch tasks based on the day index
+    // Example: You might have a list of tasks that you fetch from a data source
+    List<Task> tasks = [
+      Task(
+        startTime: DateTime.now(), // Replace with the actual start time
+        endTime: DateTime.now()
+            .add(Duration(hours: 1)), // Replace with the actual end time
+        address: '123 Street',
+        citizenName: 'John Doe',
+        taskDescription: 'Sample task description',
       ),
-    );
+      // Add more tasks as needed
+    ];
+
+    return tasks;
   }
 }

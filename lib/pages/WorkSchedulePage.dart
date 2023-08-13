@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Widgets/MainPageContent.dart';
+import '../Widgets/MainPageContent.dart'; // Import your MainPageContent widget
 import '../Widgets/DayColumn.dart'; // Import your DayColumn widget
-import '../Model/Task.dart';
+import '../Model/Task.dart'; // Import your Task model
 
 class WorkSchedulePage extends StatelessWidget {
   @override
@@ -22,21 +22,14 @@ class WorkSchedulePage extends StatelessWidget {
                 },
                 child: DayColumn(
                   dayName: getDayName(i),
-                  tasks: List.generate(
-                    15,
-                    (index) => Task(
-                      title: 'Task ${index + 1}',
-                      time: '08:00 - 08:30',
-                      street: '123 Street',
-                      zipcode: '12345',
-                      city: 'City A',
-                    ),
-                  ),
+                  tasks: getTasksForDay(i),
                 ),
               ),
           ],
         ),
       ),
+      showBackButton: true, // Show the back button in the app bar
+      isLoggedIn: true, // Assuming the user is logged in when viewing the work schedule
     );
   }
 
@@ -46,10 +39,20 @@ class WorkSchedulePage extends StatelessWidget {
     final dayIndex = (now.weekday + index) % 7;
     return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dayIndex];
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: WorkSchedulePage(),
-  ));
+  List<Task> getTasksForDay(int index) {
+    // Implement your logic to fetch tasks for the given day index
+    // Return a list of Task objects
+    // Example:
+    return List.generate(
+      15,
+      (index) => Task(
+        startTime: DateTime.now(), // Replace with the actual start time
+        endTime: DateTime.now().add(Duration(hours: 1)), // Replace with the actual end time
+        address: '123 Street',
+        citizenName: 'John Doe',
+        taskDescription: 'Sample task description',
+      ),
+    );
+  }
 }

@@ -1,14 +1,14 @@
 import 'APIService.dart';
 
 class AuthService {
-  final ApiClient apiClient = ApiClient();
+  final ApiClient _apiService = ApiClient();
   bool _isLoggedin = false;
 
   AuthService();
 
   Future<bool> login(String userName, String password) async {
     try {
-      final response = await apiClient.login('fact');
+      final response = await _apiService.login('fact');
       print('response: $response');
       _isLoggedin = true;
       return _isLoggedin;

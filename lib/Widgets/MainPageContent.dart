@@ -5,67 +5,27 @@ class MainPageContent extends StatelessWidget {
   final Widget content;
   final bool showBackButton;
   final bool isLoggedIn;
+  final String title;
 
   MainPageContent({
     required this.content,
     this.showBackButton = true,
     this.isLoggedIn = true,
+    this.title = 'Comfort Care',
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  title: Text('Comfort Care'),
-  centerTitle: true,
-  backgroundColor: Theme.of(context).primaryColor,
-  leading: isLoggedIn && content is! LoginPage
-      ? Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        )
-      : null, // Hide the leading icon if not logged in or on LoginPage
-  actions: [
-    if (isLoggedIn && content is! LoginPage)
-      IconButton(
-        icon: Icon(Icons.logout),
-        onPressed: () {
-          // Implement logout functionality here
-        },
+        title: Text(title),
+        // Other app bar settings...
       ),
-  ],
-),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-            ),
-            ListTile(
-              title: Text('Login'),
-              onTap: () {
-                Navigator.pushNamed(context, '/login');
-              },
-            ),
-            ListTile(
-              title: Text('WeekSchedule'),
-              onTap: () {
-                Navigator.pushNamed(context, '/mainPage');
-                // Navigate to Home page
-              },
-            ),
-            // Add more list tiles for other menu items
-          ],
-        ),
+        // Drawer content...
       ),
-      body: content, // This will display the content of each page
+      body: content,
     );
   }
 }
+

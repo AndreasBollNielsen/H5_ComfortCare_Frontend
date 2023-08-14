@@ -5,9 +5,8 @@ import '/Model/DayTasks.dart';
 import '/Model/Task.dart';
 
 class ReposService {
-  final ApiClient apiClient = ApiClient();
+  final ApiClient _apiService = ApiClient();
 
-  // List<DayTasks> weekplan = [];
   final storage = FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
@@ -15,7 +14,7 @@ class ReposService {
 //fetch data from api and store it in secure storage
   Future<void> storeWeekplan() async {
     try {
-      final data = await apiClient.GetWeekSchedule();
+      final data = await _apiService.GetWeekSchedule();
       if (data != null) {
         //store string as list
         final List<dynamic> weekplanJson = data as List<dynamic>;

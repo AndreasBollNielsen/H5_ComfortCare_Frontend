@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Widgets/MainPageContent.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -22,7 +23,8 @@ bool handleLogin(BuildContext context) {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return MainPageContent(
+      content: Scaffold(
       appBar: AppBar(
         title: Text('Comfort Care'),
         centerTitle: true,
@@ -95,6 +97,6 @@ bool handleLogin(BuildContext context) {
           ),
         ),
       ),
-    );
+    ));
   }
 }

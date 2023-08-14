@@ -8,26 +8,90 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  bool isUserLoggedIn = false; // Set this value based on user authentication status
+// class MyApp extends StatelessWidget {
+//   bool isUserLoggedIn =
+//       false; // Set this value based on user authentication status
 
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//           // Theme data settings...
+//           ),
+//       initialRoute: '/login',
+//       routes: {
+//         '/login': (context) => LoginPage(),
+//         '/mainPage': (context) => MainPageContent(content: WorkSchedulePage()),
+//         '/daySchedule': (context) =>
+//             MainPageContent(content: DaySchedulePage(dayIndex: 0)),
+//         // Add more routes for other subpages
+//       },
+//       onGenerateRoute: (settings) {
+//         // Handle dynamic route generation if needed
+//       },
+//       home: Scaffold(
+//           appBar: AppBar(
+//         title: Text('ComfortCare2'),
+//       )),
+//     );
+//   }
+// }
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Theme data settings...
-      ),
+          // Theme data settings...
+          
+          ),
       initialRoute: '/login',
       routes: {
-        '/login': (context) => LoginPage(),
-        '/mainPage': (context) => MainPageContent(content: WorkSchedulePage()),
-        '/daySchedule': (context) => MainPageContent(content: DaySchedulePage(dayIndex: 0)),
+        '/login': (context) => Scaffold(
+              // appBar: CustomAppBar(title: 'Login'),
+              body: LoginPage(),
+            ),
+        '/mainPage': (context) => Scaffold(
+              // appBar: CustomAppBar(title: 'Main Page'),
+              body: MainPageContent(
+                content: WorkSchedulePage(),
+                title: 'Uge Visning',
+                showBackButton: true,
+                showBurgerMenuButton: true,
+              ),
+            ),
+        '/daySchedule': (context) => Scaffold(
+              // appBar: CustomAppBar(title: 'Day Schedule'),
+              body: MainPageContent(
+                content: DaySchedulePage(dayIndex: 0),
+                title: 'Opgave Visning',
+                showBackButton: true,
+                showBurgerMenuButton: true,
+              ),
+            ),
         // Add more routes for other subpages
       },
-     onGenerateRoute: (settings) {
+      onGenerateRoute: (settings) {
         // Handle dynamic route generation if needed
       },
     );
   }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+
+  CustomAppBar({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(title),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

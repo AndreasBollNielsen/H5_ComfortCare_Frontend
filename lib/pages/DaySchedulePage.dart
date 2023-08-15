@@ -13,15 +13,26 @@ class DaySchedulePage extends StatelessWidget {
     String dayName = getDayName(dayIndex);
     List<Task> tasks = getTasksForDay(dayIndex);
 
-    return MainPageContent(
-      content: ListView(
+    // return MainPageContent(
+    //   content: ListView(
+    //     children: [
+    //       for (Task task in tasks)
+    //         TaskCard(task: task), // Use the TaskCard widget for each task
+    //     ],
+    //   ),
+    //   showBackButton: true,
+    //   isLoggedIn: true,
+    // );
+
+    return Container(
+      child: ListView(
         children: [
           for (Task task in tasks)
             TaskCard(task: task), // Use the TaskCard widget for each task
         ],
       ),
-      showBackButton: true,
-      isLoggedIn: true,
+      // showBackButton: true,
+      // isLoggedIn: true,
     );
   }
 

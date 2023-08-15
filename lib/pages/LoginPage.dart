@@ -26,7 +26,6 @@ class LoginPage extends StatelessWidget {
     return MainPageContent(
         title: 'ComfortCare',
         showBackButton: false,
-        showBurgerMenuButton: false,
         content: Scaffold(
           // appBar: AppBar(
           //   title: Text('Comfort Care'),

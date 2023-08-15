@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           // Theme data settings...
-          
+
           ),
       initialRoute: '/login',
       routes: {
@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
                 content: WorkSchedulePage(),
                 title: 'Uge Visning',
                 showBackButton: true,
-                showBurgerMenuButton: true,
               ),
             ),
         '/daySchedule': (context) => Scaffold(
@@ -68,7 +67,6 @@ class MyApp extends StatelessWidget {
                 content: DaySchedulePage(dayIndex: 0),
                 title: 'Opgave Visning',
                 showBackButton: true,
-                showBurgerMenuButton: true,
               ),
             ),
         // Add more routes for other subpages

@@ -37,7 +37,7 @@ class WorkSchedulePage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 5; i++)
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(
@@ -62,13 +62,13 @@ class WorkSchedulePage extends StatelessWidget {
     final now = DateTime.now();
     final dayIndex = (now.weekday + index) % 7;
     return [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
+      'Mandag',
+      'Tirsdag',
+      'Onsdag',
+      'Torsdag',
+      'Fredag',
+      'Lørdag',
+      'Søndag'
     ][dayIndex];
   }
 

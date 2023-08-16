@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../Widgets/MainPageContent.dart'; // Import your MainPageContent widget
 import '../Widgets/TaskCard.dart'; // Import your TaskCard widget
 import '../Model/Task.dart'; // Import your Task model
+import '../Services/RepositoryService.dart';
 
 class DaySchedulePage extends StatelessWidget {
   final int dayIndex;
+  final ReposService reposService;
 
-  DaySchedulePage({required this.dayIndex});
+  DaySchedulePage({required this.dayIndex, required this.reposService});
 
   @override
   Widget build(BuildContext context) {
-    String dayName = getDayName(dayIndex);
+    // String dayName = getDayName(dayIndex);
     List<Task> tasks = getTasksForDay(dayIndex);
 
     // return MainPageContent(
@@ -37,24 +38,26 @@ class DaySchedulePage extends StatelessWidget {
   }
 
   // Helper methods for fetching day's tasks and name
-  String getDayName(int index) {
-    final now = DateTime.now();
-    final dayIndex = (now.weekday + index) % 7;
-    return [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ][dayIndex];
-  }
+  // String getDayName(int index) {
+  //   final now = DateTime.now();
+  //   final dayIndex = (now.weekday + index) % 7;
+  //   return [
+  //     'Monday',
+  //     'Tuesday',
+  //     'Wednesday',
+  //     'Thursday',
+  //     'Friday',
+  //     'Saturday',
+  //     'Sunday'
+  //   ][dayIndex];
+  // }
 
   List<Task> getTasksForDay(int index) {
     final now = DateTime.now();
     final dayIndex = (now.weekday + index) % 7;
 
+    //first implementation of repoService
+    this.reposService.GetStorageData('Monday');
     // Replace this with your logic to fetch tasks based on the day index
     // Example: You might have a list of tasks that you fetch from a data source
     List<Task> tasks = [
@@ -66,7 +69,14 @@ class DaySchedulePage extends StatelessWidget {
         citizenName: 'John Doe',
         taskDescription: 'Sample task description',
       ),
-      // Add more tasks as needed
+      Task(
+        startTime: DateTime.now(), // Replace with the actual start time
+        endTime: DateTime.now()
+            .add(Duration(hours: 1)), // Replace with the actual end time
+        address: '123 Street',
+        citizenName: 'John Doe',
+        taskDescription: 'Sample task description',
+      ),
     ];
 
     return tasks;

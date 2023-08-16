@@ -3,6 +3,7 @@ import 'pages/LoginPage.dart';
 import 'Widgets/MainPageContent.dart';
 import 'pages/WorkSchedulePage.dart';
 import 'pages/DaySchedulePage.dart';
+import 'Services/RepositoryService.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,14 +62,24 @@ class MyApp extends StatelessWidget {
                 showBackButton: true,
               ),
             ),
-        '/daySchedule': (context) => Scaffold(
-              // appBar: CustomAppBar(title: 'Day Schedule'),
-              body: MainPageContent(
-                content: DaySchedulePage(dayIndex: 0),
-                title: 'Opgave Visning',
-                showBackButton: true,
+        '/daySchedule': (context) {
+          final arguments = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>;
+          final dayIndex = arguments['dayIndex'];
+          final day = arguments['day'];
+          final repoService = ReposService();
+          return Scaffold(
+            body: MainPageContent(
+              content: DaySchedulePage(
+                dayIndex: dayIndex,
+                reposService: repoService,
               ),
+              title: day,
+              showBackButton: true,
             ),
+          );
+        },
+
         // Add more routes for other subpages
       },
       onGenerateRoute: (settings) {

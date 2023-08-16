@@ -40,30 +40,34 @@ class DayColumn extends StatelessWidget {
               Column(
                 children: [
                   for (Task task in tasks)
-                    Container(
-                      width: double.infinity,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                      margin: EdgeInsets.only(bottom: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            task.taskDescription,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8),
-                          Text(task.startTime.toString()),
-                          SizedBox(height: 8),
-                          Text(task.endTime.toString()),
-                          SizedBox(height: 8),
-                          Text(task.address)
-                        ],
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/dayTask',
+                          arguments: {'task': task}),
+                      child: Container(
+                        width: double.infinity,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        margin: EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              task.taskDescription,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Text(task.startTime.toString()),
+                            SizedBox(height: 8),
+                            Text(task.endTime.toString()),
+                            SizedBox(height: 8),
+                            Text(task.address)
+                          ],
+                        ),
                       ),
                     ),
                 ],

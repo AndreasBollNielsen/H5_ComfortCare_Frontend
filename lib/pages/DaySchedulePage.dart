@@ -29,7 +29,11 @@ class DaySchedulePage extends StatelessWidget {
       child: ListView(
         children: [
           for (Task task in tasks)
-            TaskCard(task: task), // Use the TaskCard widget for each task
+            GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/dayTask',
+                    arguments: {'task': task}),
+                child: TaskCard(
+                    task: task)), // Use the TaskCard widget for each task
         ],
       ),
       // showBackButton: true,
@@ -73,8 +77,8 @@ class DaySchedulePage extends StatelessWidget {
         startTime: DateTime.now(), // Replace with the actual start time
         endTime: DateTime.now()
             .add(Duration(hours: 1)), // Replace with the actual end time
-        address: '123 Street',
-        citizenName: 'John Doe',
+        address: '456 Street',
+        citizenName: 'Jane Doe',
         taskDescription: 'Sample task description',
       ),
     ];

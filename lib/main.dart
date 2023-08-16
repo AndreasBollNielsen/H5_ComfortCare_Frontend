@@ -4,6 +4,7 @@ import 'Widgets/MainPageContent.dart';
 import 'pages/WorkSchedulePage.dart';
 import 'pages/DaySchedulePage.dart';
 import 'Services/RepositoryService.dart';
+import 'Pages/DayTaskspage.dart';
 
 void main() {
   runApp(MyApp());
@@ -75,6 +76,19 @@ class MyApp extends StatelessWidget {
                 reposService: repoService,
               ),
               title: day,
+              showBackButton: true,
+            ),
+          );
+        },
+        '/dayTask': (context) {
+          final arg = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>;
+          final currentTask = arg['task'];
+          return Scaffold(
+            // appBar: CustomAppBar(title: 'Main Page'),
+            body: MainPageContent(
+              content: DayTaskPage(task: currentTask),
+              title: 'opgave Visning',
               showBackButton: true,
             ),
           );

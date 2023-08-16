@@ -39,6 +39,8 @@ class MainPageContent extends StatelessWidget {
 
                   if (currentRouteName == '/daySchedule') {
                     Navigator.pop(context);
+                  } else if (currentRouteName == '/dayTask') {
+                    Navigator.pop(context);
                   } else {
                     Navigator.pushReplacementNamed(context, '/login');
                   }

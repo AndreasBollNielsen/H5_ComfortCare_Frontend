@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Services/AuthenticationService.dart';
 import 'pages/LoginPage.dart';
 import 'Widgets/MainPageContent.dart';
 import 'pages/WorkSchedulePage.dart';
@@ -7,7 +8,8 @@ import 'Services/RepositoryService.dart';
 import 'Pages/DayTaskspage.dart';
 
 void main() {
-  runApp(MyApp());
+  final authService = AuthService();
+  runApp(MyApp(authService: authService));
 }
 
 // class MyApp extends StatelessWidget {
@@ -41,6 +43,9 @@ void main() {
 // }
 
 class MyApp extends StatelessWidget {
+  final AuthService authService;
+  MyApp({required this.authService});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,8 +58,11 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => Scaffold(
               // appBar: CustomAppBar(title: 'Login'),
-              body: LoginPage(),
+              body: LoginPage(
+                  authService:
+                      AuthService()), // Opret en instans af AuthService og send den som parameter
             ),
+
         '/mainPage': (context) => Scaffold(
               // appBar: CustomAppBar(title: 'Main Page'),
               body: MainPageContent(

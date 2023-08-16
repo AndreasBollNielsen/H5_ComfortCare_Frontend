@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import '../Widgets/MainPageContent.dart';
+import '../Services/AuthenticationService.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService authService;
+  LoginPage({required this.authService});
 
-  bool handleLogin(BuildContext context) {
+  void handleLogin(BuildContext context) async {
     // Simulate successful login
-    bool isSuccess = true;
 
-    if (isSuccess) {
-      // Navigate to the MainPage after successful login
-      Navigator.pushReplacementNamed(context, '/mainPage');
-    } else {
-      // Navigate to the login page if login is not successful
-      Navigator.pushReplacementNamed(context, '/login');
+    if (_formKey.currentState!.validate()) {
+      bool isSuccess = await authService.login(
+          _usernameController.text, _usernameController.text);
+
+      if (isSuccess) {
+        // Navigate to the MainPage after successful login
+        Navigator.pushReplacementNamed(context, '/mainPage');
+      } else {
+        // Navigate to the login page if login is not successful
+        Navigator.pushReplacementNamed(context, '/login');
+      }
     }
-
-    return isSuccess;
+    // return isSuccess;
   }
 
   @override
@@ -63,7 +69,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please write your username.';
+                            return 'skriv venligst dit brugernavn';
                           }
                           return null;
                         },
@@ -79,7 +85,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please write your password.';
+                            return 'skriv venligst dit password.';
                           }
                           return null;
                         },

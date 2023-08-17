@@ -9,11 +9,13 @@ class AuthService {
   AuthService();
 
   Future<bool> login(String userName, String password) async {
+    print('sending data');
     try {
       final response =
-          await _apiService.login(Employee(name: userName, password: password));
-
-      _isLoggedin = response;
+          await _apiService.login(Employee(name: 'a', password: 'b'));
+      //   await _apiService.fetchData();
+      print(response);
+      // _isLoggedin = response;
       return _isLoggedin;
     } catch (e) {
       print('An error occurred during login: $e');

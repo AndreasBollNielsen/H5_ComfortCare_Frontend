@@ -8,33 +8,49 @@ import '../Model/Employee.dart';
 import '/Model/Task.dart';
 
 class ApiClient {
-  final String baseUrl = 'http://localhost:5270/api/Test/LoginTestEmployee';
+  // final String ip = '10.0.2.2';
+  // final String localIP = '192.168.0.180';
+  // final String port = '5270';
+  final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 
-  Future<bool> login(Employee employee) async {
+  Future<String> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
-    final body = employee.toJson();
-
+    final data = jsonEncode(employee.toJson());
+    print('data to send: $data');
     try {
       final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(body));
+          headers: {'Content-Type': 'application/json'}, body: data);
       if (response.statusCode == 200) {
-        print(response.body);
-        return true;
+        print("repsonse $response");
+        return response.statusCode.toString();
       } else {
-        return false;
+        print("repsonse ${response.statusCode}");
+        return response.statusCode.toString();
       }
     } catch (e) {
-      throw Exception('Failed to make GET request: $e');
+      throw Exception('Failed to make POST request: $e');
+    }
+  }
+
+  Future fetchData() async {
+    final response = await http.post(
+        Uri.parse('http://192.168.0.180:5000/api/Test/LoginTestEmployee'));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      // Hvis serveren returnerer et OK svar, parser vi JSON.
+      return response.body;
+    } else {
+      // Hvis serveren ikke returnerer et OK svar, kaster vi en fejl.
+      throw Exception('Failed to load data');
     }
   }
 
 //get week schedule
   Future<String> GetWeekSchedule() async {
     final url = Uri.parse(baseUrl);
-
+    print("calling week schedult");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

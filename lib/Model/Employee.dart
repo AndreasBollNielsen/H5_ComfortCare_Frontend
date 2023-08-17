@@ -7,7 +7,7 @@ class Employee {
 //convert data to json structure
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'initials': name,
       'password': password,
     };
   }

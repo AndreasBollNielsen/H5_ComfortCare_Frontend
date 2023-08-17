@@ -1,21 +1,27 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 import '../Model/DayTasks.dart';
+import '../Model/Employee.dart';
 import '/Model/Task.dart';
 
 class ApiClient {
-  final String baseUrl = 'https://catfact.ninja/fact';
+  final String baseUrl = 'http://localhost:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 
-  Future<bool> login(String endpoint) async {
+  Future<bool> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
+    final body = employee.toJson();
 
     try {
-      final response = await http.get(url);
+      final response = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(body));
       if (response.statusCode == 200) {
+        print(response.body);
         return true;
       } else {
         return false;

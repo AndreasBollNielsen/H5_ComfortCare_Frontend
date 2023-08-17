@@ -1,3 +1,5 @@
+import 'package:flutter_comfortcare/Model/Employee.dart';
+
 import 'APIService.dart';
 
 class AuthService {
@@ -8,7 +10,8 @@ class AuthService {
 
   Future<bool> login(String userName, String password) async {
     try {
-      final response = await _apiService.login('fact');
+      final response =
+          await _apiService.login(Employee(name: userName, password: password));
 
       _isLoggedin = response;
       return _isLoggedin;

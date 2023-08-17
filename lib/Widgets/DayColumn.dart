@@ -56,14 +56,14 @@ class DayColumn extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              task.taskDescription,
+                              task.description,
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 8),
-                            Text(task.startTime.toString()),
+                            Text(task.startDate.toString()),
                             SizedBox(height: 8),
-                            Text(task.endTime.toString()),
+                            Text(task.endDate.toString()),
                             SizedBox(height: 8),
                             Text(task.address)
                           ],

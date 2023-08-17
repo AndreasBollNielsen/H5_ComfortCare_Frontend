@@ -1,15 +1,20 @@
 class Task {
-  final DateTime startTime;
-  final DateTime endTime;
-  final String address;
+  final String title;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
   final String citizenName;
-  final String taskDescription;
+  final String address;
+  final double timeSpan;
 
   Task({
-    required this.startTime,
-    required this.endTime,
-    required this.address,
+    required this.title,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
     required this.citizenName,
-    required this.taskDescription,
+    required this.address,
+    required this.timeSpan,
+    
   });
 }

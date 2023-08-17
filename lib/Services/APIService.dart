@@ -10,12 +10,16 @@ class ApiClient {
 
   ApiClient();
 
-  Future<String> login(String endpoint) async {
+  Future<bool> login(String endpoint) async {
     final url = Uri.parse(baseUrl);
 
     try {
       final response = await http.get(url);
-      return response.body;
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       throw Exception('Failed to make GET request: $e');
     }
@@ -28,7 +32,6 @@ class ApiClient {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-
         //using dummy data until api is available
         final dummyWeekScheduleJson = generateDummyWeekScheduleJson();
         return dummyWeekScheduleJson;

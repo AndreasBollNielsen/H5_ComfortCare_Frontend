@@ -27,11 +27,13 @@ class ReposService {
           final tasks = tasksJson.map((taskJson) {
             final taskMap = taskJson as Map<String, dynamic>;
             return Task(
-              startTime: DateTime.parse(taskMap['startTime']),
-              endTime: DateTime.parse(taskMap['endTime']),
+              title: taskMap['title'],
+              timeSpan: taskMap['timeSpan'],
+              startDate: DateTime.parse(taskMap['startTime']),
+              endDate: DateTime.parse(taskMap['endTime']),
               address: taskMap['address'],
               citizenName: taskMap['citizenName'],
-              taskDescription: taskMap['taskDescription'],
+              description: taskMap['taskDescription'],
             );
           }).toList();
 

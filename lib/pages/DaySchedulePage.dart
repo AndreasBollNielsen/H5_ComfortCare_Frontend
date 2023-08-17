@@ -66,20 +66,24 @@ class DaySchedulePage extends StatelessWidget {
     // Example: You might have a list of tasks that you fetch from a data source
     List<Task> tasks = [
       Task(
-        startTime: DateTime.now(), // Replace with the actual start time
-        endTime: DateTime.now()
+        title: 'SOSU',
+        timeSpan: 30,
+        startDate: DateTime.now(), // Replace with the actual start time
+        endDate: DateTime.now()
             .add(Duration(hours: 1)), // Replace with the actual end time
         address: '123 Street',
         citizenName: 'John Doe',
-        taskDescription: 'Sample task description',
+        description: 'Sample task description',
       ),
       Task(
-        startTime: DateTime.now(), // Replace with the actual start time
-        endTime: DateTime.now()
+        title: 'SOSU',
+        timeSpan: 45,
+        startDate: DateTime.now(), // Replace with the actual start time
+        endDate: DateTime.now()
             .add(Duration(hours: 1)), // Replace with the actual end time
         address: '456 Street',
         citizenName: 'Jane Doe',
-        taskDescription: 'Sample task description',
+        description: 'Sample task description',
       ),
     ];
 

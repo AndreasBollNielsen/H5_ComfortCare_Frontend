@@ -17,13 +17,14 @@ class TaskCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8),
-            Text('Time: ${task.startTime.toString()} - ${task.endTime.toString()}'),
+            Text(
+                'Time: ${task.startDate.toString()} - ${task.endDate.toString()}'),
             SizedBox(height: 8),
             Text('Address: ${task.address}'),
             SizedBox(height: 8),
             Text('Citizen Name: ${task.citizenName}'),
             SizedBox(height: 8),
-            Text('Description: ${task.taskDescription}'),
+            Text('Description: ${task.description}'),
           ],
         ),
       ),

@@ -70,12 +70,14 @@ class WorkSchedulePage extends StatelessWidget {
     return List.generate(
       15,
       (index) => Task(
-        startTime: DateTime.now(), // Replace with the actual start time
-        endTime: DateTime.now()
+        title: 'SOSU',
+        timeSpan: 30,
+        startDate: DateTime.now(), // Replace with the actual start time
+        endDate: DateTime.now()
             .add(Duration(hours: 1)), // Replace with the actual end time
         address: '123 Street',
         citizenName: 'John Doe',
-        taskDescription: 'Sample task description',
+        description: 'Sample task description',
       ),
     );
   }

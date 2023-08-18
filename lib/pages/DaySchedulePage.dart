@@ -6,24 +6,22 @@ import '../Services/RepositoryService.dart';
 class DaySchedulePage extends StatelessWidget {
   final int dayIndex;
   final ReposService reposService;
-
+  late List<Task> tasks;
   DaySchedulePage({required this.dayIndex, required this.reposService});
+
+  @override
+  void initState() {
+    fetchTasksForDay();
+  }
+
+  Future<void> fetchTasksForDay() async {
+    tasks = await getTasksForDay(dayIndex);
+    // setState(() {}); // Opdater widget for at afspejle de hentede opgaver
+  }
 
   @override
   Widget build(BuildContext context) {
     // String dayName = getDayName(dayIndex);
-    List<Task> tasks = getTasksForDay(dayIndex);
-
-    // return MainPageContent(
-    //   content: ListView(
-    //     children: [
-    //       for (Task task in tasks)
-    //         TaskCard(task: task), // Use the TaskCard widget for each task
-    //     ],
-    //   ),
-    //   showBackButton: true,
-    //   isLoggedIn: true,
-    // );
 
     return Container(
       child: ListView(
@@ -56,37 +54,39 @@ class DaySchedulePage extends StatelessWidget {
   //   ][dayIndex];
   // }
 
-  List<Task> getTasksForDay(int index) {
+  Future<List<Task>> getTasksForDay(int index) async {
     final now = DateTime.now();
     final dayIndex = (now.weekday + index) % 7;
 
     //first implementation of repoService
-    this.reposService.GetStorageData('Monday');
+    var schedule = await this.reposService.GetDaySchedule();
     // Replace this with your logic to fetch tasks based on the day index
     // Example: You might have a list of tasks that you fetch from a data source
-    List<Task> tasks = [
-      Task(
-        title: 'SOSU',
-        timeSpan: 30,
-        startDate: DateTime.now(), // Replace with the actual start time
-        endDate: DateTime.now()
-            .add(Duration(hours: 1)), // Replace with the actual end time
-        address: '123 Street',
-        citizenName: 'John Doe',
-        description: 'Sample task description',
-      ),
-      Task(
-        title: 'SOSU',
-        timeSpan: 45,
-        startDate: DateTime.now(), // Replace with the actual start time
-        endDate: DateTime.now()
-            .add(Duration(hours: 1)), // Replace with the actual end time
-        address: '456 Street',
-        citizenName: 'Jane Doe',
-        description: 'Sample task description',
-      ),
-    ];
 
-    return tasks;
+    // List<Task> tasks = [
+    //   Task(
+    //     title: 'SOSU',
+    //     timeSpan: 30,
+    //     startDate: DateTime.now(), // Replace with the actual start time
+    //     endDate: DateTime.now()
+    //         .add(Duration(hours: 1)), // Replace with the actual end time
+    //     address: '123 Street',
+    //     citizenName: 'John Doe',
+    //     description: 'Sample task description',
+    //   ),
+    //   Task(
+    //     title: 'SOSU',
+    //     timeSpan: 45,
+    //     startDate: DateTime.now(), // Replace with the actual start time
+    //     endDate: DateTime.now()
+    //         .add(Duration(hours: 1)), // Replace with the actual end time
+    //     address: '456 Street',
+    //     citizenName: 'Jane Doe',
+    //     description: 'Sample task description',
+    //   ),
+    // ];
+
+    //return tasks;
+    return schedule![index].tasks;
   }
 }

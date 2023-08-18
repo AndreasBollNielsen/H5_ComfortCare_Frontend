@@ -12,18 +12,17 @@ class LoginPage extends StatelessWidget {
   void handleLogin(BuildContext context) async {
     // Simulate successful login
 
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      bool isSuccess = await authService.login(
+          _usernameController.text, _usernameController.text);
 
-    
-    bool isSuccess = await authService.login(
-        _usernameController.text, _usernameController.text);
-
-    if (isSuccess) {
-      // Navigate to the MainPage after successful login
-      Navigator.pushReplacementNamed(context, '/mainPage');
-    } else {
-      // Navigate to the login page if login is not successful
-      Navigator.pushReplacementNamed(context, '/login');
+      if (isSuccess) {
+        // Navigate to the MainPage after successful login
+        Navigator.pushReplacementNamed(context, '/mainPage');
+      } else {
+        // Navigate to the login page if login is not successful
+        Navigator.pushReplacementNamed(context, '/login');
+      }
     }
   }
   // return isSuccess;

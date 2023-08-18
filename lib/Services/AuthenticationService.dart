@@ -1,21 +1,23 @@
 import 'package:flutter_comfortcare/Model/Employee.dart';
+import 'package:flutter_comfortcare/Services/RepositoryService.dart';
 
 import 'APIService.dart';
 
 class AuthService {
-  final ApiClient _apiService = ApiClient();
+  final ApiClient apiService;
+  final ReposService repoService;
   bool _isLoggedin = false;
 
-  AuthService();
+  AuthService({required this.apiService, required this.repoService});
 
   Future<bool> login(String userName, String password) async {
-    print('sending data');
     try {
       final response =
-          await _apiService.login(Employee(name: 'a', password: 'b'));
-      //   await _apiService.fetchData();
-      print(response);
-      // _isLoggedin = response;
+          await apiService.login(Employee(name: 'a', password: 'b'));
+
+      await repoService.storeWeekplan(response);
+
+      _isLoggedin = true;
       return _isLoggedin;
     } catch (e) {
       print('An error occurred during login: $e');

@@ -15,35 +15,24 @@ class ApiClient {
 
   ApiClient();
 
-  Future<String> login(Employee employee) async {
+  Future<dynamic> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
     final data = jsonEncode(employee.toJson());
-    print('data to send: $data');
+    // print('data to send: $data');
     try {
       final response = await http.post(url,
           headers: {'Content-Type': 'application/json'}, body: data);
       if (response.statusCode == 200) {
-        print("repsonse $response");
-        return response.statusCode.toString();
+        var result = await response.body;
+        final jsonData = json.decode(result);
+        // print("repsonse $jsonData");
+        return result;
       } else {
         print("repsonse ${response.statusCode}");
         return response.statusCode.toString();
       }
     } catch (e) {
       throw Exception('Failed to make POST request: $e');
-    }
-  }
-
-  Future fetchData() async {
-    final response = await http.post(
-        Uri.parse('http://192.168.0.180:5000/api/Test/LoginTestEmployee'));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      // Hvis serveren returnerer et OK svar, parser vi JSON.
-      return response.body;
-    } else {
-      // Hvis serveren ikke returnerer et OK svar, kaster vi en fejl.
-      throw Exception('Failed to load data');
     }
   }
 

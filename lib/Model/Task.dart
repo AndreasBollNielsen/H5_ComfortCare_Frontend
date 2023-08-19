@@ -21,11 +21,11 @@ class Task {
     return Task(
       title: json['titel'],
       description: json['description'],
-      startDate: DateTime.parse(json['startDate']),
+      startDate: DateTime.parse(json['startDate']).toLocal(),
       citizenName: json['citizenName'],
       address: json['address'],
       timeSpan: json['timeSpan'].toDouble(),
-      endDate: DateTime.parse(json['endDate']),
+      endDate: DateTime.parse(json['endDate']).toLocal(),
     );
   }
 

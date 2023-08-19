@@ -33,16 +33,16 @@ class ReposService {
           var jsonObj = jsonData['assignments'][index];
           //print('index: $index jData $index: ${jsonObj['startDate']}');
           // print('jData ${jsonObj['startDate']}');
-          DateTime myDateTime = DateTime.parse(jsonObj[
-              'startDate']); // Din DateTime, erstat med den ønskede dato
-          String formattedDate = DateFormat.MMMd().format(
-              myDateTime); // "MMM" for forkortet månedsnavn og "d" for dagen
-          print('jData $formattedDate'); // Udskriver f.eks. "Aug 12"
+          String raw = jsonObj['startDate'];
+          DateTime myDateTime = DateTime.parse(raw);
+          String formattedDate = DateFormat.MMMd().format(myDateTime.toLocal());
+          //  print('jData $formattedDate'); // Udskriver f.eks. "Aug 12"
 
           var task = Task.fromJson(jsonObj);
           var formattedTask = DateFormat.MMMd().format(task.startDate);
           //  print('index: $index model $index: ${task.startDate}');
-          // print('model ${formattedTask}');
+          print(
+              'raw ${jsonObj['startDate']} jData $formattedDate model ${formattedTask}');
 
           // var jsonDate = DateTime.parse(jsonObj['startDate']);
           // if (jsonDate != task.startDate) {
@@ -76,15 +76,15 @@ class ReposService {
         int sundays = 0;
 
         for (var element in assignments) {
-          if (_getDayName(element.startDate.day) == 'Mandag') {
+          if (_getDayName(element.startDate.weekday) == 'Mandag') {
             mondays += 1;
-          } else if (_getDayName(element.startDate.day) == 'Tirsdag') {
+          } else if (_getDayName(element.startDate.weekday) == 'Tirsdag') {
             tuesdays += 1;
-          } else if (_getDayName(element.startDate.day) == 'Onsdag') {
+          } else if (_getDayName(element.startDate.weekday) == 'Onsdag') {
             wednessdays += 1;
-          } else if (_getDayName(element.startDate.day) == 'Torsdag') {
+          } else if (_getDayName(element.startDate.weekday) == 'Torsdag') {
             thursdays += 1;
-          } else if (_getDayName(element.startDate.day) == 'Fredag') {
+          } else if (_getDayName(element.startDate.weekday) == 'Fredag') {
             fridays += 1;
           } else if (_getDayName(element.startDate.day) == 'Lørdag') {
             saturdays += 1;
@@ -150,16 +150,19 @@ class ReposService {
         }
 
         //  sortere tidspunkterne ud fra morgen til aften
-        // for (var daytask in weekTasks) {
-        //   daytask.tasks.sort((task1, task2) {
-        //     final startTime1 =
-        //         task1.startDate.hour * 60 + task1.startDate.minute;
-        //     final startTime2 =
-        //         task2.startDate.hour * 60 + task2.startDate.minute;
-        //     return startTime1.compareTo(startTime2);
-        //   });
-        // }
-        // print('number of tasks ${weekTasks[0].tasks.length}');
+        for (var daytask in weekTasks) {
+          daytask.tasks.sort((task1, task2) {
+            var startTime1 = task1.startDate.hour * 60 + task1.startDate.minute;
+            var startTime2 = task2.startDate.hour * 60 + task2.startDate.minute;
+
+            // Hvis starttiden er efter midnat (dvs. tidlig morgen), tilføj 24 timer for korrekt sammenligning.
+            if (startTime1 < 7 * 60) startTime1 += 24 * 60;
+            if (startTime2 < 7 * 60) startTime2 += 24 * 60;
+
+            return startTime1.compareTo(startTime2);
+          });
+        }
+        print('number of tasks ${weekTasks[0].tasks.length}');
         // store weekplan in secure storage as JSON-string
         try {
           final weekTasksJson = json

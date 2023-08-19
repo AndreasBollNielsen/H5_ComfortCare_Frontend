@@ -22,10 +22,10 @@ class Task {
       title: json['titel'],
       description: json['description'],
       startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
       citizenName: json['citizenName'],
       address: json['address'],
       timeSpan: json['timeSpan'].toDouble(),
+      endDate: DateTime.parse(json['endDate']),
     );
   }
 

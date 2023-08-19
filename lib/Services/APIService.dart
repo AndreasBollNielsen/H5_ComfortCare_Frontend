@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ class ApiClient {
 
   ApiClient();
 
-  Future<dynamic> login(Employee employee) async {
+  Future<Map<String, dynamic>> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
     final data = jsonEncode(employee.toJson());
     // print('data to send: $data');
@@ -24,12 +25,15 @@ class ApiClient {
           headers: {'Content-Type': 'application/json'}, body: data);
       if (response.statusCode == 200) {
         var result = await response.body;
-        final jsonData = json.decode(result);
+        // final jsonData = json.decode(result);
+        final parsed = jsonDecode(result) as Map<String, dynamic>;
         // print("repsonse $jsonData");
-        return result;
+        return parsed;
       } else {
         print("repsonse ${response.statusCode}");
-        return response.statusCode.toString();
+        //return response.statusCode.toString();
+        final Map<String, dynamic> nullObject = {};
+        return nullObject;
       }
     } catch (e) {
       throw Exception('Failed to make POST request: $e');

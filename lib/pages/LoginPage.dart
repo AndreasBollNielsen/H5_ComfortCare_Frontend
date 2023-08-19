@@ -17,6 +17,7 @@ class LoginPage extends StatelessWidget {
           _usernameController.text, _usernameController.text);
 
       if (isSuccess) {
+        print('navigating to next page');
         // Navigate to the MainPage after successful login
         Navigator.pushReplacementNamed(context, '/mainPage');
       } else {

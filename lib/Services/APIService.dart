@@ -1,34 +1,49 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 import '../Model/DayTasks.dart';
+import '../Model/Employee.dart';
 import '/Model/Task.dart';
 
 class ApiClient {
-  final String baseUrl = 'https://catfact.ninja/fact';
+  // final String ip = '10.0.2.2';
+  // final String localIP = '192.168.0.180';
+  // final String port = '5270';
+  final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 
-  Future<bool> login(String endpoint) async {
+  Future<Map<String, dynamic>> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
-
+    final data = jsonEncode(employee.toJson());
+    // print('data to send: $data');
     try {
-      final response = await http.get(url);
+      final response = await http.post(url,
+          headers: {'Content-Type': 'application/json'}, body: data);
       if (response.statusCode == 200) {
-        return true;
+        var result = await response.body;
+        // final jsonData = json.decode(result);
+        final parsed = jsonDecode(result) as Map<String, dynamic>;
+        // print("repsonse $jsonData");
+        return parsed;
       } else {
-        return false;
+        print("repsonse ${response.statusCode}");
+        //return response.statusCode.toString();
+        final Map<String, dynamic> nullObject = {};
+        return nullObject;
       }
     } catch (e) {
-      throw Exception('Failed to make GET request: $e');
+      throw Exception('Failed to make POST request: $e');
     }
   }
 
 //get week schedule
   Future<String> GetWeekSchedule() async {
     final url = Uri.parse(baseUrl);
-
+    print("calling week schedult");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

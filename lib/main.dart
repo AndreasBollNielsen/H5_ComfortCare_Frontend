@@ -5,11 +5,15 @@ import 'Widgets/MainPageContent.dart';
 import 'pages/WorkSchedulePage.dart';
 import 'pages/DaySchedulePage.dart';
 import 'Services/RepositoryService.dart';
+import 'Services/APIService.dart';
 import 'Pages/DayTaskspage.dart';
 
 void main() {
-  final authService = AuthService();
-  runApp(MyApp(authService: authService));
+  final apiService = ApiClient();
+  final repoService = ReposService();
+  final authService =
+      AuthService(apiService: apiService, repoService: repoService);
+  runApp(MyApp(authService: authService, reposService: repoService));
 }
 
 // class MyApp extends StatelessWidget {
@@ -44,7 +48,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final AuthService authService;
-  MyApp({required this.authService});
+  final ReposService reposService;
+  MyApp({required this.authService, required this.reposService});
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +65,15 @@ class MyApp extends StatelessWidget {
               // appBar: CustomAppBar(title: 'Login'),
               body: LoginPage(
                   authService:
-                      AuthService()), // Opret en instans af AuthService og send den som parameter
+                      authService), // Opret en instans af AuthService og send den som parameter
             ),
 
         '/mainPage': (context) => Scaffold(
               // appBar: CustomAppBar(title: 'Main Page'),
               body: MainPageContent(
-                content: WorkSchedulePage(),
+                content: WorkSchedulePage(
+                  reposService: reposService,
+                ),
                 title: 'Uge Visning',
                 showBackButton: true,
               ),

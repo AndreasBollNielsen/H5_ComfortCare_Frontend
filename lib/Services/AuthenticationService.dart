@@ -1,6 +1,7 @@
 import 'package:flutter_comfortcare/Model/Employee.dart';
 import 'package:flutter_comfortcare/Services/RepositoryService.dart';
 
+import '../Model/ResponseBody.dart';
 import 'APIService.dart';
 
 class AuthService {
@@ -10,18 +11,19 @@ class AuthService {
 
   AuthService({required this.apiService, required this.repoService});
 
-  Future<bool> login(String userName, String password) async {
+  Future<APIResponse?> login(String userName, String password) async {
     try {
       final response =
           await apiService.login(Employee(name: 'a', password: 'b'));
 
-      await repoService.storeWeekplan(response);
+      if (response.statusCode == 200) {
+        await repoService.storeWeekplan(response.body);
+        _isLoggedin = true;
+      }
 
-      _isLoggedin = true;
-      return _isLoggedin;
+      return response;
     } catch (e) {
       print('An error occurred during login: $e');
-      return false;
     }
   }
 }

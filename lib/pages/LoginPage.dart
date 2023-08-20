@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import '../Widgets/MainPageContent.dart';
 import '../Services/AuthenticationService.dart';
 
@@ -7,22 +8,26 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService authService;
+
   LoginPage({required this.authService});
 
   void handleLogin(BuildContext context) async {
     // Simulate successful login
 
     if (_formKey.currentState!.validate()) {
-      bool isSuccess = await authService.login(
+      var response = await authService.login(
           _usernameController.text, _usernameController.text);
 
-      if (isSuccess) {
-        print('navigating to next page');
-        // Navigate to the MainPage after successful login
-        Navigator.pushReplacementNamed(context, '/mainPage');
-      } else {
-        // Navigate to the login page if login is not successful
-        Navigator.pushReplacementNamed(context, '/login');
+      if (response != null) {
+        if (response.statusCode == 200) {
+          print('navigating to next page');
+          // Navigate to the MainPage after successful login
+          Navigator.pushReplacementNamed(context, '/mainPage');
+        } else {
+          // Navigator.pushReplacementNamed(context, '/login');
+          //present error message to the user
+          print('error: ${response.message}');
+        }
       }
     }
   }

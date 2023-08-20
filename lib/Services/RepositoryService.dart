@@ -18,17 +18,10 @@ class ReposService {
       //check if data is null
       if (data != null) {
         //convert json to model
-        // Map<String, dynamic> jsonData = jsonDecode(data);
         Map<String, dynamic> jsonData = data;
         final _name = jsonData['name'] as String;
 
         //DBUG json
-        // for (var jsonObj in jsonData['assignments']) {
-        //   print('json dat: ${jsonObj['startDate']}');
-
-        //   var task = Task.fromJson(jsonObj);
-        //   print('   model: ${task.startDate}');
-        // }
         for (int index = 0; index < jsonData['assignments'].length; index++) {
           var jsonObj = jsonData['assignments'][index];
           //print('index: $index jData $index: ${jsonObj['startDate']}');
@@ -49,7 +42,6 @@ class ReposService {
           // }
         }
 
-        //her sker der noget mystisk noget?
         // final assignmentsJson = jsonData['assignments'] as List<dynamic>;
         final assignmentsJson = jsonData['assignments'] as List<dynamic>;
 
@@ -63,10 +55,11 @@ class ReposService {
         final assignments =
             assignmentsJson.map((taskJson) => Task.fromJson(taskJson)).toList();
         var test = 0;
+
         //group tasks to same day
-        //ukorrekt liste af tasks
         assignments.sort((a, b) => a.startDate.compareTo(b.startDate));
 
+        //DEBUG-----------------------------------------------------------------
         int mondays = 0;
         int tuesdays = 0;
         int wednessdays = 0;
@@ -95,10 +88,11 @@ class ReposService {
 
         print(
             'mondays: $mondays\n tuesdays: $tuesdays\n wednessdays: $wednessdays\n thursdays: $thursdays\n fridays: $fridays\n saturdays: $saturdays\n sundays: $sundays\n');
-
+//------------------------------------------------------------------------------
         //create daytasks list
         List<DayTasks> weekTasks = [];
 
+        //adds task to corresponding day of the week
         for (var day in _getWeekNames()) {
           List<Task> tasks = [];
           for (var element in assignments) {
@@ -145,6 +139,7 @@ class ReposService {
         //       DayTasks(name: _name, day: currentDay, tasks: currentDayTasks));
         // }
 
+        //DEBUG
         for (var element in weekTasks) {
           print('day: ${element.day} tasks: ${element.tasks.length}');
         }
@@ -163,6 +158,9 @@ class ReposService {
           });
         }
         print('number of tasks ${weekTasks[0].tasks.length}');
+
+        //DEBUG clear securestorage
+        await storage.deleteAll();
         // store weekplan in secure storage as JSON-string
         try {
           final weekTasksJson = json

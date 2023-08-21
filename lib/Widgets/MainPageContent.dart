@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import '../pages/LoginPage.dart'; // Import your LoginPage or use the appropriate path
+import 'LogoutDialog.dart';
+import '../Services/AuthenticationService.dart';
 
 class MainPageContent extends StatelessWidget {
   final Widget content;
   final bool showBackButton;
   final bool isLoggedIn;
   final String title;
+  final AuthService? authorizationService;
 
   MainPageContent(
       {required this.content,
       this.showBackButton = false,
       this.isLoggedIn = true,
-      required this.title});
+      required this.title,
+      this.authorizationService});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,15 @@ class MainPageContent extends StatelessWidget {
                   ? IconButton(
                       icon: Icon(Icons.exit_to_app),
                       onPressed: () =>
-                          Navigator.pushReplacementNamed(context, '/login'),
-                    )
+                          // Navigator.pushReplacementNamed(context, '/login'),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return LogoutDialog(
+                                authService: authorizationService!,
+                              );
+                            },
+                          ))
                   : null)
         ],
         title: Text(title),
@@ -49,65 +60,6 @@ class MainPageContent extends StatelessWidget {
             : null,
         // Other app bar settings...
       ),
-      // drawer: showBurgerMenuButton
-      //     ? Drawer(
-      //         width: 180,
-      //         child: Container(
-      //           child: Padding(
-      //             padding: const EdgeInsets.only(),
-      //             child: Column(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: [
-      //                 Align(
-      //                   alignment: Alignment.topCenter,
-      //                   child: Container(
-      //                     width: 160,
-      //                     height: 50,
-      //                     alignment: Alignment.topCenter,
-      //                     decoration: BoxDecoration(
-      //                       border: Border.all(color: Colors.black),
-      //                     ),
-      //                     child: Text(
-      //                       'Comfort Care',
-      //                       style: TextStyle(fontSize: 20),
-      //                     ),
-      //                   ),
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     IconButton(
-      //                       icon: Icon(Icons.remove_red_eye),
-      //                       onPressed: () {
-      //                         Navigator.pushReplacementNamed(
-      //                             context, '/mainPage');
-      //                       },
-      //                     ),
-      //                     Text(
-      //                       'Ugevisning',
-      //                       style: TextStyle(fontSize: 16),
-      //                     ),
-      //                   ],
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     IconButton(
-      //                       icon: Icon(Icons.person_add),
-      //                       onPressed: () {
-      //                         Navigator.pushReplacementNamed(context, '/login');
-      //                       },
-      //                     ),
-      //                     Text(
-      //                       'Log Ud',
-      //                       style: TextStyle(fontSize: 16),
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       )
-      //     : null,
       body: content,
     );
   }

@@ -26,4 +26,8 @@ class AuthService {
       print('An error occurred during login: $e');
     }
   }
+
+  void Logout() {
+    _isLoggedin = false;
+  }
 }

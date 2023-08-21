@@ -11,14 +11,11 @@ import '../Model/Employee.dart';
 import '/Model/Task.dart';
 
 class ApiClient {
-  // final String ip = '10.0.2.2';
-  // final String localIP = '192.168.0.180';
-  // final String port = '5270';
   //home ip
-  //final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
+  final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
 
   //schoolIp
-  final String baseUrl = 'http://10.108.138.33:5270/api/Test/LoginTestEmployee';
+  //final String baseUrl = 'http://10.108.138.33:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 

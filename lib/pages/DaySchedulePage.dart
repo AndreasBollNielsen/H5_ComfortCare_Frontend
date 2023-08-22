@@ -6,18 +6,22 @@ import '../Services/RepositoryService.dart';
 class DaySchedulePage extends StatelessWidget {
   final int dayIndex;
   final ReposService reposService;
-  late List<Task> tasks;
-  DaySchedulePage({required this.dayIndex, required this.reposService});
+  late List<Task> tasks = [];
+  DaySchedulePage(
+      {required this.dayIndex,
+      required this.reposService,
+      required this.tasks});
 
   @override
   void initState() {
-    fetchTasksForDay();
+   // fetchTasksForDay();
   }
 
-  Future<void> fetchTasksForDay() async {
-    tasks = await getTasksForDay(dayIndex);
-    // setState(() {}); // Opdater widget for at afspejle de hentede opgaver
-  }
+  //deprecated
+  // Future<void> fetchTasksForDay() async {
+  //   tasks = await getTasksForDay(dayIndex);
+  //   // setState(() {}); // Opdater widget for at afspejle de hentede opgaver
+  // }
 
   @override
   Widget build(BuildContext context) {

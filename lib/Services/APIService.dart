@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:flutter_comfortcare/Model/ResponseBody.dart';
 import 'package:http/http.dart' as http;
 
 import '../Model/DayTasks.dart';
@@ -9,34 +11,51 @@ import '../Model/Employee.dart';
 import '/Model/Task.dart';
 
 class ApiClient {
-  // final String ip = '10.0.2.2';
-  // final String localIP = '192.168.0.180';
-  // final String port = '5270';
+  //home ip
   final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
+
+  //schoolIp
+  //final String baseUrl = 'http://10.108.138.33:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 
-  Future<Map<String, dynamic>> login(Employee employee) async {
+  Future<APIResponse> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
     final data = jsonEncode(employee.toJson());
-    // print('data to send: $data');
+
     try {
-      final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'}, body: data);
+      final response = await http
+          .post(url, headers: {'Content-Type': 'application/json'}, body: data)
+          .timeout(Duration(seconds: 5));
+
       if (response.statusCode == 200) {
         var result = await response.body;
-        // final jsonData = json.decode(result);
         final parsed = jsonDecode(result) as Map<String, dynamic>;
-        // print("repsonse $jsonData");
-        return parsed;
+        return APIResponse(
+            body: parsed, statusCode: response.statusCode, message: '');
       } else {
-        print("repsonse ${response.statusCode}");
-        //return response.statusCode.toString();
+        // print("Response ${response.statusCode}");
         final Map<String, dynamic> nullObject = {};
-        return nullObject;
+        return APIResponse(
+            body: nullObject,
+            statusCode: response.statusCode,
+            message: 'Error: ${response.statusCode} Not Found');
       }
+    } on TimeoutException catch (e) {
+      //print("TimeoutException: $e");
+      final Map<String, dynamic> timeoutError = {};
+      return APIResponse(
+          body: timeoutError,
+          statusCode: 504,
+          message:
+              'Connection timed out. Please try again later.'); // Gateway Timeout
     } catch (e) {
-      throw Exception('Failed to make POST request: $e');
+      print(e);
+      final Map<String, dynamic> errorResponse = {'error': e.toString()};
+      return APIResponse(
+          body: errorResponse,
+          statusCode: 500,
+          message: 'oops something went wrong'); // A generic error code
     }
   }
 

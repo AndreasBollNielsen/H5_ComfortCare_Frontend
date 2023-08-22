@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comfortcare/Widgets/InactivityTimer.dart';
 import '../Model/Task.dart'; // Import the Task class
 
 class DayColumn extends StatelessWidget {
@@ -7,11 +8,13 @@ class DayColumn extends StatelessWidget {
 
   DayColumn({required this.dayName, required this.tasks});
 
+  //final InactivityTimer inactivityTimer =InactivityTimer(_prefs)
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/daySchedule',
-          arguments: {'day': this.dayName, 'dayIndex': 0}),
+          arguments: {'day': this.dayName, 'dayIndex': 0,'tasks': this.tasks}),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
         margin: EdgeInsets.symmetric(horizontal: 8),

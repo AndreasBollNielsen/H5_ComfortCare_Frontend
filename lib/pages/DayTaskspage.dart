@@ -11,8 +11,6 @@ class DayTaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TaskCard(task: task),
-      // showBackButton: true,
-      // isLoggedIn: true,
     );
   }
 }

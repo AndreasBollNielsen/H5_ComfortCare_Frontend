@@ -169,11 +169,14 @@ class ReposService {
 
         //DEBUG clear securestorage
         await storage.deleteAll();
+
         // store weekplan in secure storage as JSON-string
         try {
           final weekTasksJson = json
               .encode(weekTasks.map((dayTasks) => dayTasks.toJson()).toList());
+          final currentUser = json.encode(weekTasks[0].name);
           await storage.write(key: 'weekTasks', value: weekTasksJson);
+          await storage.write(key: 'user', value: currentUser);
         } catch (e) {
           print("failed to write to secureStorage: $e");
         }
@@ -203,6 +206,17 @@ class ReposService {
           .map<DayTasks>((dayTasksJson) => DayTasks.fromJson(dayTasksJson))
           .toList();
       return dayTasksList;
+    }
+  }
+
+  Future<bool> GetUserInitials() async {
+    final data = await storage.read(key: 'user');
+
+    if (data != null) {
+      final jsonData = json.decode(data!);
+      return true;
+    } else {
+      return false;
     }
   }
 

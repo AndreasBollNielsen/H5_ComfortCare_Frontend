@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Model/Task.dart'; // Import your Task model
 import 'package:intl/intl.dart';
+import '../Widgets/CustomStyle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskCard extends StatelessWidget {
   final Task task;
@@ -34,6 +36,7 @@ class TaskCard extends StatelessWidget {
                         width: 200,
                         child: TextFormField(
                           enabled: false,
+                          style: TaskStyle.taskStyle,
                           initialValue: formatter.format(task.startDate),
                           decoration: InputDecoration(
                             labelText: 'Dato',
@@ -45,6 +48,7 @@ class TaskCard extends StatelessWidget {
                         width: 200,
                         child: TextFormField(
                           enabled: false,
+                          style: TaskStyle.taskStyle,
                           initialValue: '${task.citizenName}',
                           decoration: InputDecoration(
                             labelText: 'Borger',
@@ -55,6 +59,7 @@ class TaskCard extends StatelessWidget {
                         height: 80,
                         child: TextFormField(
                           enabled: false,
+                          style: TaskStyle.taskStyle,
                           initialValue: '${task.address.streetName}',
                           decoration: InputDecoration(
                             labelText: 'Gade',
@@ -65,6 +70,7 @@ class TaskCard extends StatelessWidget {
                         height: 80,
                         child: TextFormField(
                           enabled: false,
+                          style: TaskStyle.taskStyle,
                           initialValue: '${task.address.localArea}',
                           decoration: InputDecoration(
                             labelText: 'Lokalområde',
@@ -76,6 +82,7 @@ class TaskCard extends StatelessWidget {
                         // color: Colors.green,
                         child: TextFormField(
                           enabled: false,
+                          style: TaskStyle.taskStyle,
                           initialValue: '${task.address.city}',
                           decoration: InputDecoration(
                             labelText: 'Postnummer',
@@ -89,7 +96,16 @@ class TaskCard extends StatelessWidget {
                   child: Container(
                     height: 300,
                     color: Colors.blue,
-                    child: Center(),
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          String destination =
+                              "${task.address.streetName},${task.address.city}"; // Erstat med din destination adresse
+                          launchURL(destination);
+                        },
+                        child: Text("Åbn Google Maps"),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -104,6 +120,7 @@ class TaskCard extends StatelessWidget {
                       // color: Colors.yellow,
                       child: TextFormField(
                         enabled: false,
+                        style: TaskStyle.taskStyle,
                         initialValue: '${task.description}',
                         maxLines: null, // Tillad ubegrænset antal linjer
                         decoration: InputDecoration(
@@ -119,5 +136,16 @@ class TaskCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void launchURL(String destination) async {
+    Uri googleMapsUrl = Uri.parse(
+        "https://www.google.com/maps/dir/?api=1&destination=$destination");
+
+    if (await canLaunchUrl(googleMapsUrl)) {
+      await launchUrl(googleMapsUrl);
+    } else {
+      throw 'Could not launch $googleMapsUrl';
+    }
   }
 }

@@ -14,7 +14,7 @@ class DayColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/daySchedule',
-          arguments: {'day': this.dayName, 'dayIndex': 0,'tasks': this.tasks}),
+          arguments: {'day': this.dayName, 'dayIndex': 0, 'tasks': this.tasks}),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
         margin: EdgeInsets.symmetric(horizontal: 8),
@@ -67,7 +67,7 @@ class DayColumn extends StatelessWidget {
                             Text(
                                 '${task.startDate.hour.toString().padLeft(2, '0')}:${task.startDate.minute.toString().padLeft(2, '0')} - ${task.endDate.hour.toString().padLeft(2, '0')}:${task.endDate.minute.toString().padLeft(2, '0')}'),
                             SizedBox(height: 8),
-                            Text(task.address)
+                            Text(task.fullAddress)
                           ],
                         ),
                       ),

@@ -9,8 +9,11 @@ import 'Services/RepositoryService.dart';
 import 'Services/APIService.dart';
 import 'Pages/DayTaskspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
+  initializeDateFormatting('da', null);
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final inactivityTimer = InactivityTimer(prefs);
@@ -84,7 +87,7 @@ class MyApp extends StatelessWidget {
 
         '/mainPage': (context) {
           // Opret en ny instans af InactivityTimer og send den som parameter
-          final inactivityTimer = InactivityTimer(prefs);
+          // final inactivityTimer = InactivityTimer(prefs);
 
           return Scaffold(
             body: MainPageContent(

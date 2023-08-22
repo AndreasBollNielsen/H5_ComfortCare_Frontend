@@ -31,51 +31,52 @@ class DayColumn extends StatelessWidget {
             ),
           ],
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                dayName,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Column(
-                children: [
-                  for (Task task in tasks)
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, '/dayTask',
-                          arguments: {'task': task}),
-                      child: Container(
-                        width: double.infinity,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                        margin: EdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              task.title,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                                '${task.startDate.hour.toString().padLeft(2, '0')}:${task.startDate.minute.toString().padLeft(2, '0')} - ${task.endDate.hour.toString().padLeft(2, '0')}:${task.endDate.minute.toString().padLeft(2, '0')}'),
-                            SizedBox(height: 8),
-                            Text(task.fullAddress)
-                          ],
-                        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              dayName,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Task task = tasks[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/dayTask',
+                        arguments: {'task': task}),
+                    child: Container(
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      margin: EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            task.title,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                              '${task.startDate.hour.toString().padLeft(2, '0')}:${task.startDate.minute.toString().padLeft(2, '0')} - ${task.endDate.hour.toString().padLeft(2, '0')}:${task.endDate.minute.toString().padLeft(2, '0')}'),
+                          SizedBox(height: 8),
+                          Text(task.fullAddress)
+                        ],
                       ),
                     ),
-                ],
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

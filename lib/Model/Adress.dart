@@ -9,10 +9,10 @@ class Address {
     // Del adressen ved kommaer for at få separate elementer
     List<String> addressParts = addressString.split(',');
 
-    print(addressString);
-    for (var i = 0; i < addressParts.length; i++) {
-      print('index: $i: ${addressParts[i]} ');
-    }
+    // print(addressString);
+    // for (var i = 0; i < addressParts.length; i++) {
+    //   print('index: $i: ${addressParts[i]} ');
+    // }
     // Fjern eventuelle ekstra mellemrum fra hver del
     addressParts = addressParts.map((part) => part.trim()).toList();
 

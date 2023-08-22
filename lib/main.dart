@@ -16,7 +16,7 @@ void main() async {
   initializeDateFormatting('da', null);
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final inactivityTimer = InactivityTimer(prefs);
+  //final inactivityTimer = InactivityTimer(prefs);
 
   final apiService = ApiClient();
   final repoService = ReposService();

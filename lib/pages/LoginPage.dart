@@ -5,15 +5,32 @@ import '../Services/AuthenticationService.dart';
 import '../Widgets/InternetDialog.dart';
 import '../Widgets/WrongUserDialog.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  final AuthService authService;
+
+  LoginPage({required this.authService});
+
+  @override
+  _LoginPageState createState() =>
+      _LoginPageState(authService: this.authService);
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final AuthService authService;
+
+  _LoginPageState({required this.authService});
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-  final AuthService authService;
 
-  LoginPage({required this.authService});
+  @override
+  void initState() {
+    super.initState();
+    _formKey.currentState?.reset();
+  }
 
   void handleLogin(BuildContext context) async {
     //disable focus on input fields
@@ -32,6 +49,7 @@ class LoginPage extends StatelessWidget {
           print('navigating to next page');
 
           // Navigate to the MainPage after successful login
+          // Navigator.pushReplacementNamed(context, '/mainPage');
           Navigator.pushReplacementNamed(context, '/mainPage');
         } else if (response.statusCode == 500) {
           //check if user is stored in securestorage
@@ -40,7 +58,11 @@ class LoginPage extends StatelessWidget {
             await showDialog(
               context: context,
               builder: (BuildContext context) {
-                return InternetDialog();
+                return InternetDialog(
+                  onClose: () {
+                    _formKey.currentState?.reset();
+                  },
+                );
               },
             );
           } else {
@@ -71,76 +93,76 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainPageContent(
-        title: 'ComfortCare',
-        showBackButton: false,
-        content: Scaffold(
-          body: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.25,
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                  ),
-                ],
-                border: Border.all(color: Colors.grey.shade300, width: 1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        controller: _usernameController,
-                        focusNode: _usernameFocusNode,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.person),
-                          labelText: 'Username',
-                          hintText: 'Username',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'skriv venligst dit brugernavn';
-                          }
-                          return null;
-                        },
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('ComfortCare'),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.25,
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+              border: Border.all(color: Colors.grey.shade300, width: 1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: _usernameController,
+                      focusNode: _usernameFocusNode,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                        labelText: 'Username',
+                        hintText: 'Username',
                       ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: _passwordController,
-                        focusNode: _passwordFocusNode,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.lock),
-                          labelText: 'Password',
-                          hintText: 'Password',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'skriv venligst dit password.';
-                          }
-                          return null;
-                        },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'skriv venligst dit brugernavn';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: _passwordController,
+                      focusNode: _passwordFocusNode,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.lock),
+                        labelText: 'Password',
+                        hintText: 'Password',
                       ),
-                      SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        onPressed: () => handleLogin(context),
-                        icon: Icon(Icons.login),
-                        label: Text('Login'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.green,
-                        ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'skriv venligst dit password.';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: () => handleLogin(context),
+                      icon: Icon(Icons.login),
+                      label: Text('Login'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.green,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

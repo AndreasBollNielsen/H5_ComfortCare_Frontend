@@ -29,36 +29,6 @@ void main() async {
   ));
 }
 
-// class MyApp extends StatelessWidget {
-//   bool isUserLoggedIn =
-//       false; // Set this value based on user authentication status
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//           // Theme data settings...
-//           ),
-//       initialRoute: '/login',
-//       routes: {
-//         '/login': (context) => LoginPage(),
-//         '/mainPage': (context) => MainPageContent(content: WorkSchedulePage()),
-//         '/daySchedule': (context) =>
-//             MainPageContent(content: DaySchedulePage(dayIndex: 0)),
-//         // Add more routes for other subpages
-//       },
-//       onGenerateRoute: (settings) {
-//         // Handle dynamic route generation if needed
-//       },
-//       home: Scaffold(
-//           appBar: AppBar(
-//         title: Text('ComfortCare2'),
-//       )),
-//     );
-//   }
-// }
-
 class MyApp extends StatelessWidget {
   final AuthService authService;
   final ReposService reposService;
@@ -80,15 +50,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => Scaffold(
               // appBar: CustomAppBar(title: 'Login'),
-              body: LoginPage(
-                  authService:
-                      authService), // Opret en instans af AuthService og send den som parameter
+              body: LoginPage(authService: authService),
             ),
 
         '/mainPage': (context) {
-          // Opret en ny instans af InactivityTimer og send den som parameter
-          // final inactivityTimer = InactivityTimer(prefs);
-
           return Scaffold(
             body: MainPageContent(
               authorizationService: authService,
@@ -96,7 +61,8 @@ class MyApp extends StatelessWidget {
                 reposService: reposService,
               ),
               title: 'Uge Visning',
-              showBackButton: true,
+              showBackButton: false,
+              isLoggedIn: authService.CheckLoginStatus(),
             ),
           );
         },
@@ -118,6 +84,7 @@ class MyApp extends StatelessWidget {
               ),
               title: day,
               showBackButton: true,
+              isLoggedIn: authService.CheckLoginStatus(),
             ),
           );
         },
@@ -132,6 +99,7 @@ class MyApp extends StatelessWidget {
               content: DayTaskPage(task: currentTask),
               title: 'opgave Visning',
               showBackButton: true,
+              isLoggedIn: authService.CheckLoginStatus(),
             ),
           );
         },

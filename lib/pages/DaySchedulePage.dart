@@ -13,21 +13,13 @@ class DaySchedulePage extends StatelessWidget {
       required this.reposService,
       required this.tasks});
 
-  @override
-  void initState() {
-    // fetchTasksForDay();
-  }
-
-  //deprecated
-  // Future<void> fetchTasksForDay() async {
-  //   tasks = await getTasksForDay(dayIndex);
-  //   // setState(() {}); // Opdater widget for at afspejle de hentede opgaver
+  // @override
+  // void initState() {
+  //   // fetchTasksForDay();
   // }
 
   @override
   Widget build(BuildContext context) {
-    // String dayName = getDayName(dayIndex);
-
     return Container(
       child: Wrap(
         children: [
@@ -35,8 +27,6 @@ class DaySchedulePage extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, '/dayTask',
                   arguments: {'task': task}),
-              // child: TaskCard(
-              //     task: task)), // Use the TaskCard widget for each task
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -75,8 +65,6 @@ class DaySchedulePage extends StatelessWidget {
             )
         ],
       ),
-      // showBackButton: true,
-      // isLoggedIn: true,
     );
   }
 
@@ -101,33 +89,7 @@ class DaySchedulePage extends StatelessWidget {
 
     //first implementation of repoService
     var schedule = await this.reposService.GetDaySchedule();
-    // Replace this with your logic to fetch tasks based on the day index
-    // Example: You might have a list of tasks that you fetch from a data source
 
-    // List<Task> tasks = [
-    //   Task(
-    //     title: 'SOSU',
-    //     timeSpan: 30,
-    //     startDate: DateTime.now(), // Replace with the actual start time
-    //     endDate: DateTime.now()
-    //         .add(Duration(hours: 1)), // Replace with the actual end time
-    //     address: '123 Street',
-    //     citizenName: 'John Doe',
-    //     description: 'Sample task description',
-    //   ),
-    //   Task(
-    //     title: 'SOSU',
-    //     timeSpan: 45,
-    //     startDate: DateTime.now(), // Replace with the actual start time
-    //     endDate: DateTime.now()
-    //         .add(Duration(hours: 1)), // Replace with the actual end time
-    //     address: '456 Street',
-    //     citizenName: 'Jane Doe',
-    //     description: 'Sample task description',
-    //   ),
-    // ];
-
-    //return tasks;
     return schedule![index].tasks;
   }
 }

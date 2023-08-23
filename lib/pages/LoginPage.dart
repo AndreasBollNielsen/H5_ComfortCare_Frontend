@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import '../Widgets/MainPageContent.dart';
 import '../Services/AuthenticationService.dart';
 import '../Widgets/InternetDialog.dart';
+import '../Widgets/WrongUserDialog.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -32,57 +33,41 @@ class LoginPage extends StatelessWidget {
 
           // Navigate to the MainPage after successful login
           Navigator.pushReplacementNamed(context, '/mainPage');
-        } else if (response.statusCode == 504) {
-          //present error message to the user
-          //print('error: ${response.message}');
-
-          //show dialog box
+        } else if (response.statusCode == 500) {
+          //check if user is stored in securestorage
+          if (await this.authService.checkUserLogin()) {
+            //show dialog box if user is saved in securestorage
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InternetDialog();
+              },
+            );
+          } else {
+            //show dialog box if user is not stored in securestorage
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return WrongUserDialog(
+                  content: 'Forkert bruger, prøv igen med wifi slået til',
+                );
+              },
+            );
+          }
+        } else if (response.statusCode == 400) {
+          //show dialog box if username and password is wrong
           await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return InternetDialog();
+              return WrongUserDialog(
+                content: 'Brugernavn eller password er forkert',
+              );
             },
           );
-
-          // if (result != null) {
-          //   // Dialogen er blevet lukket
-          //   _completer.complete(result); // Fuldfør Completer med resultatet
-          // }
-
-          // showDialog(
-          //     context: context,
-          //     builder: (BuildContext context) {
-          //       return AlertDialog(
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(
-          //               20.0), // Juster værdien efter dit ønske.
-          //         ),
-          //         title: Text('Ingen internet'),
-          //         content: Text(
-          //             'Du bliver stadig logget ind, men\ndine visninger bliver ikke opdateret, eller rapporter uploadet,\nfør du får forbindelse igen.\nVil du fortsætte?'),
-          //         actions: <Widget>[
-          //           TextButton(
-          //             child: Text('Nej'),
-          //             onPressed: () {
-          //               _formKey.currentState?.reset();
-          //               Navigator.of(context).pop(); // Luk dialogen.
-          //             },
-          //           ),
-          //           TextButton(
-          //             child: Text('Ja'),
-          //             onPressed: () {
-          //               // Navigator.of(context).pop(); // Luk dialogen.
-          //               Navigator.pushReplacementNamed(context, '/mainPage');
-          //             },
-          //           ),
-          //         ],
-          //       );
-          //     });
         }
       }
     }
   }
-  // return isSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +75,6 @@ class LoginPage extends StatelessWidget {
         title: 'ComfortCare',
         showBackButton: false,
         content: Scaffold(
-          // appBar: AppBar(
-          //   title: Text('Comfort Care'),
-          //   centerTitle: true,
-          //   backgroundColor: Theme.of(context).primaryColor,
-          // ),
           body: Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.25,

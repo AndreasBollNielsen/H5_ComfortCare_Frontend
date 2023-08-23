@@ -1,9 +1,9 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Model/DayTasks.dart';
-import '../Widgets/MainPageContent.dart'; // Import your MainPageContent widget
-import '../Widgets/DayColumn.dart'; // Import your DayColumn widget
-import '../Model/Task.dart'; // Import your Task model
+import '../Widgets/MainPageContent.dart';
+import '../Widgets/DayColumn.dart';
+import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
 
 class WorkSchedulePage extends StatelessWidget {
@@ -14,7 +14,7 @@ class WorkSchedulePage extends StatelessWidget {
   Future<List<DayTasks>> fetchSchedule() async {
     final currentschedule = await reposService.GetDaySchedule();
     schedule = currentschedule!;
-    return schedule ?? []; // Returner en tom liste, hvis schedule er null
+    return schedule ?? [];
   }
 
   @override
@@ -23,9 +23,7 @@ class WorkSchedulePage extends StatelessWidget {
       future: fetchSchedule(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child:
-                  CircularProgressIndicator()); // Vis en loading-indikator, mens data hentes
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('An error occurred: ${snapshot.error}');
         } else if (snapshot.hasData) {
@@ -54,39 +52,11 @@ class WorkSchedulePage extends StatelessWidget {
 
   // Helper method to get the day name
   String getDayName(int index) {
-    // final now = DateTime.now();
-    // final dayIndex = (now.weekday + index) % 7;
-    // return [
-    //   'Mandag',
-    //   'Tirsdag',
-    //   'Onsdag',
-    //   'Torsdag',
-    //   'Fredag',
-    //   'Lørdag',
-    //   'Søndag'
-    // ][dayIndex];
-
     return schedule[index].day;
   }
 
+  //get single task for the day
   List<Task> getTasksForDay(int index) {
     return schedule[index].tasks;
-
-    // Implement your logic to fetch tasks for the given day index
-    // Return a list of Task objects
-    // Example:
-    // return List.generate(
-    //   15,
-    //   (index) => Task(
-    //     title: 'SOSU',
-    //     timeSpan: 30,
-    //     startDate: DateTime.now(), // Replace with the actual start time
-    //     endDate: DateTime.now()
-    //         .add(Duration(hours: 1)), // Replace with the actual end time
-    //     address: '123 Street',
-    //     citizenName: 'John Doe',
-    //     description: 'Sample task description',
-    //   ),
-    // );
   }
 }

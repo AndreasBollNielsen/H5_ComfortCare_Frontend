@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class InternetDialog extends StatelessWidget {
   // final String title;
   // final String content;
+  final VoidCallback onClose;
 
-  InternetDialog();
+  InternetDialog({required this.onClose});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class InternetDialog extends StatelessWidget {
         TextButton(
           child: Text('Nej'),
           onPressed: () {
+            onClose();
             //  _formKey.currentState?.reset();
             Navigator.of(context).pop(); // Luk dialogen.
           },
@@ -28,6 +30,8 @@ class InternetDialog extends StatelessWidget {
           child: Text('Ja'),
           onPressed: () {
             // Navigator.of(context).pop(); // Luk dialogen.
+            Navigator.of(context).pop();
+
             Navigator.pushReplacementNamed(context, '/mainPage');
           },
         ),

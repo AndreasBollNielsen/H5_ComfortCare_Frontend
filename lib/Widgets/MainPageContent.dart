@@ -13,7 +13,7 @@ class MainPageContent extends StatelessWidget {
   MainPageContent(
       {required this.content,
       this.showBackButton = false,
-      this.isLoggedIn = true,
+      this.isLoggedIn = false,
       required this.title,
       this.authorizationService});
 
@@ -24,7 +24,7 @@ class MainPageContent extends StatelessWidget {
         actions: [
           Align(
               alignment: Alignment.centerLeft,
-              child: showBackButton
+              child: isLoggedIn
                   ? IconButton(
                       icon: Icon(Icons.exit_to_app),
                       onPressed: () =>
@@ -43,20 +43,15 @@ class MainPageContent extends StatelessWidget {
         centerTitle: true,
 
         leading: showBackButton
-            ? BackButton(
-                onPressed: () {
-                  final currentRouteName =
-                      ModalRoute.of(context)?.settings.name;
+            ? BackButton(onPressed: () {
+                final currentRouteName = ModalRoute.of(context)?.settings.name;
+                Navigator.pop(context);
 
-                  if (currentRouteName == '/daySchedule') {
-                    Navigator.pop(context);
-                  } else if (currentRouteName == '/dayTask') {
-                    Navigator.pop(context);
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  }
-                },
-              )
+                // if (currentRouteName == '/daySchedule') {
+                // } else if (currentRouteName == '/dayTask') {
+                //   Navigator.pop(context);
+                // }
+              })
             : null,
         // Other app bar settings...
       ),

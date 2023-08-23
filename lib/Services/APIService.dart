@@ -24,7 +24,7 @@ class ApiClient {
     try {
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)
-          .timeout(Duration(seconds: 5));
+          .timeout(Duration(seconds: 1));
 
       if (response.statusCode == 200) {
         var result = await response.body;

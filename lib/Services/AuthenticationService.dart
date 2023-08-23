@@ -30,8 +30,13 @@ class AuthService {
     _isLoggedin = false;
   }
 
+  bool CheckLoginStatus() {
+    return _isLoggedin;
+  }
+
   Future<bool> checkUserLogin() async {
     if (await this.repoService.GetUserInitials()) {
+      _isLoggedin = true;
       return true;
     } else {
       return false;

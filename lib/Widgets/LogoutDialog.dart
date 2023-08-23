@@ -28,8 +28,17 @@ class LogoutDialog extends StatelessWidget {
         TextButton(
           child: Text('Ja'),
           onPressed: () {
-            // Navigator.of(context).pop(); // Luk dialogen.
+            //  Navigator.of(context).pop(); // Luk dialogen.
+            // Navigator.of(context).pop();
+            // Navigator.of(context).popUntil((route) => false);
             authService.Logout();
+            // Navigator.pushReplacementNamed(context, '/login');
+            // Navigator.of(context).popUntil((route) {
+            //   // Check om ruten er login-siden
+            //   return route.settings.name == '/login';
+            // });
+
+            Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacementNamed(context, '/login');
           },
         ),

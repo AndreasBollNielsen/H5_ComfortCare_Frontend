@@ -11,8 +11,10 @@ import 'Pages/DayTaskspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:timezone/data/latest.dart' as tzdata;
 
 void main() async {
+  tzdata.initializeTimeZones();
   initializeDateFormatting('da', null);
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();

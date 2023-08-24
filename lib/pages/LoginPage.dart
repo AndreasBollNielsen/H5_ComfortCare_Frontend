@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 return InternetDialog(
                   onClose: () {
                     _formKey.currentState?.reset();
+                    
                   },
                 );
               },
@@ -143,10 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       focusNode: _passwordFocusNode,
                       obscureText: true,
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: (value) {
-                        _fieldFocusChange(
-                            context, _passwordFocusNode, _submitFocusNode);
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        handleLogin(context);
                       },
                       decoration: const InputDecoration(
                         icon: Icon(Icons.lock),

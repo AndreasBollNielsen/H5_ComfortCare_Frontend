@@ -6,29 +6,22 @@ class Address {
   Address(this.streetName, this.localArea, this.city);
 
   factory Address.fromAddressString(String addressString) {
-    // Del adressen ved kommaer for at få separate elementer
+    //splitting string into parts
     List<String> addressParts = addressString.split(',');
 
-    // print(addressString);
-    // for (var i = 0; i < addressParts.length; i++) {
-    //   print('index: $i: ${addressParts[i]} ');
-    // }
-    // Fjern eventuelle ekstra mellemrum fra hver del
+    //removing blank space from each string
     addressParts = addressParts.map((part) => part.trim()).toList();
 
+    //add blank space if local area is not present
     if (addressParts.length < 3) {
       addressParts.insert(1, ' ');
     }
 
-    // Sørg for, at der er mindst 4 dele (gade, postnummer, by, etage)
-    if (addressParts.length >= 3) {
-      String street = addressParts[0];
-      String local = addressParts[1];
-      String city = addressParts[2];
+    //retrieve street,localarea and city & return the model
+    String street = addressParts[0];
+    String local = addressParts[1];
+    String city = addressParts[2];
 
-      return Address(street, local, city);
-    } else {
-      throw Exception('Ugyldig adressetekst');
-    }
+    return Address(street, local, city);
   }
 }

@@ -108,38 +108,6 @@ class ReposService {
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
-        // //temporary lists
-        // String currentDay = _getDayName(assignments[0].startDate.weekday);
-        // List<Task> currentDayTasks = [];
-        // print(currentDay);
-        // //generate week schedule
-        // for (Task task in assignments) {
-        //   DateTime startDate = DateTime(
-        //       task.startDate.year, task.startDate.month, task.startDate.day);
-
-        //   //add new daytasks if current day changed
-        //   if (currentDay == null ||
-        //       _getDayName(startDate.weekday) != currentDay) {
-        //     if (currentDay != null) {
-        //       weekTasks.add(DayTasks(
-        //           name: _name, day: currentDay, tasks: currentDayTasks));
-        //     }
-        //     // print(currentDay);
-        //     //add current day if null
-        //     currentDay = _getDayName(startDate.weekday);
-        //     currentDayTasks = [task];
-        //   } else {
-        //     currentDayTasks.add(task);
-        //   }
-        //   //print('number of tasks ${currentDayTasks.length} day: ${currentDay}');
-        // }
-
-        // //add tasks for the week
-        // if (currentDay != null) {
-        //   weekTasks.add(
-        //       DayTasks(name: _name, day: currentDay, tasks: currentDayTasks));
-        // }
-
         //DEBUG
         for (var element in weekTasks) {
           print('day: ${element.day} tasks: ${element.tasks.length}');
@@ -151,7 +119,7 @@ class ReposService {
         for (var weektask in weekTasks) {
           weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
         }
-        //  sortere tidspunkterne ud fra morgen til aften
+        //  sort time periods from morning to night
         // for (var daytask in weekTasks) {
         //   daytask.tasks.sort((task1, task2) {
         //     // var startTime1 = task1.startDate.hour * 60 + task1.startDate.minute;
@@ -214,6 +182,7 @@ class ReposService {
 
     if (data != null) {
       final jsonData = json.decode(data!);
+      print(jsonData);
       return true;
     } else {
       return false;
@@ -235,7 +204,7 @@ class ReposService {
     // ][dayIndex];
     final weekdayFormat =
         DateFormat('EEEE', 'da_DK'); // 'da_DK' for dansk lokalisation
-    final dayName = weekdayFormat.format(date);
+    final dayName = weekdayFormat.format(date.toLocal());
     // print(dayName);
     return _capitalizeFirstLetter(dayName);
   }

@@ -1,4 +1,6 @@
 import 'Adress.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:intl/intl.dart';
 
 class Task {
   final String title;
@@ -20,18 +22,46 @@ class Task {
       required this.timeSpan,
       required this.address});
 
+  //factory to convert json to task
   factory Task.fromJson(Map<String, dynamic> json) {
+    // parse dates and try setting the correct timezone
+    final est = tz.getLocation('Europe/Copenhagen');
+    final dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss");
+    final startDate = dateFormat.parse(json['startDate'], true);
+    final endDate = dateFormat.parse(json['endDate'], true);
+
+    //temp variables used for setting timezone
+    DateTime estStartDate;
+    DateTime estEndDate;
+
+    //check if timezone is UTC
+    if (startDate.isUtc) {
+      // set the new timezone to CEST
+      estStartDate = tz.TZDateTime.from(startDate, est);
+      estEndDate = tz.TZDateTime.from(endDate, est);
+
+      //DEBUG
+      print(
+          'before: ${startDate.timeZoneOffset} after: ${estStartDate.timeZoneOffset} date: ${startDate}');
+    } else {
+      //set the variables to current timezone if timezone is CEST
+      estStartDate = startDate;
+      estEndDate = endDate;
+    }
+
     return Task(
-        title: json['titel'],
-        description: json['description'],
-        startDate: DateTime.parse(json['startDate']).toLocal(),
-        citizenName: json['citizenName'],
-        fullAddress: json['address'],
-        timeSpan: json['timeSpan'].toDouble(),
-        endDate: DateTime.parse(json['endDate']).toLocal(),
-        address: Address.fromAddressString(json['address']));
+      title: json['titel'],
+      description: json['description'],
+      startDate: estStartDate,
+      citizenName: json['citizenName'],
+      fullAddress: json['address'],
+      timeSpan: json['timeSpan'].toDouble(),
+      endDate: estEndDate,
+      address: Address.fromAddressString(json['address']),
+    );
   }
 
+  //factory to convert task into jason format
   Map<String, dynamic> toJson() {
     return {
       'titel': title,

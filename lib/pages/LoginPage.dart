@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _submitFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -46,10 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response != null) {
         //successful login
         if (response.statusCode == 200) {
-          print('navigating to next page');
-
           // Navigate to the MainPage after successful login
-          // Navigator.pushReplacementNamed(context, '/mainPage');
           Navigator.pushReplacementNamed(context, '/mainPage');
         } else if (response.statusCode == 500) {
           //check if user is stored in securestorage
@@ -61,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 return InternetDialog(
                   onClose: () {
                     _formKey.currentState?.reset();
+                    
                   },
                 );
               },
@@ -123,10 +122,15 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _usernameController,
                       focusNode: _usernameFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        _fieldFocusChange(
+                            context, _usernameFocusNode, _passwordFocusNode);
+                      },
                       decoration: const InputDecoration(
                         icon: Icon(Icons.person),
-                        labelText: 'Username',
-                        hintText: 'Username',
+                        labelText: 'Brugernavn',
+                        hintText: 'Brugernavn',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -140,10 +144,14 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       focusNode: _passwordFocusNode,
                       obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        handleLogin(context);
+                      },
                       decoration: const InputDecoration(
                         icon: Icon(Icons.lock),
-                        labelText: 'Password',
-                        hintText: 'Password',
+                        labelText: 'Kodeord',
+                        hintText: 'Kodeord',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -154,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton.icon(
+                      focusNode: _submitFocusNode,
                       onPressed: () => handleLogin(context),
                       icon: Icon(Icons.login),
                       label: Text('Login'),
@@ -169,4 +178,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+}
+
+_fieldFocusChange(
+    BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+  currentFocus.unfocus();
+  FocusScope.of(context).requestFocus(nextFocus);
 }

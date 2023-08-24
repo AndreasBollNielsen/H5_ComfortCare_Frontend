@@ -7,6 +7,7 @@ class DayTasks {
 
   DayTasks({required this.day, required this.tasks, required this.name});
 
+  //method to convert model to json data
   Map<String, dynamic> toJson() {
     return {
       'day': day,
@@ -15,6 +16,7 @@ class DayTasks {
     };
   }
 
+  //factory to convert from json data to model
   factory DayTasks.fromJson(Map<String, dynamic> json) {
     return DayTasks(
       day: json['day'],

@@ -10,10 +10,14 @@ import '/Model/Task.dart';
 
 class ApiClient {
   //home ip
-  final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
+  //final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
 
   //schoolIp
-  //final String baseUrl = 'http://10.108.138.33:5270/api/Test/LoginTestEmployee';
+  // final String baseUrl =     'http://10.108.137.227:5270/api/Test/LoginTestEmployee';
+
+  //server
+  final String baseUrl =
+      'https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
 
   ApiClient();
 
@@ -25,7 +29,7 @@ class ApiClient {
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)
           .timeout(Duration(seconds: 1));
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         var result = await response.body;
         final parsed = jsonDecode(result) as Map<String, dynamic>;
@@ -45,6 +49,7 @@ class ApiClient {
           statusCode: 500,
           message: 'Connection timed out. Please try again later.');
     } catch (e) {
+      print(e);
       print(e);
       final Map<String, dynamic> errorResponse = {'error': e.toString()};
       return APIResponse(

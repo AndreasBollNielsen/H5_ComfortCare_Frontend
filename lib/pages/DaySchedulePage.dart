@@ -13,11 +13,6 @@ class DaySchedulePage extends StatelessWidget {
       required this.reposService,
       required this.tasks});
 
-  // @override
-  // void initState() {
-  //   // fetchTasksForDay();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(

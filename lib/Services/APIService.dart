@@ -10,10 +10,11 @@ import '/Model/Task.dart';
 
 class ApiClient {
   //home ip
-  final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
+  //final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
 
   //schoolIp
-  //final String baseUrl = 'http://10.108.138.33:5270/api/Test/LoginTestEmployee';
+  final String baseUrl =
+      'http://10.108.137.227:5270/api/Test/LoginTestEmployee';
 
   ApiClient();
 
@@ -32,6 +33,7 @@ class ApiClient {
         return APIResponse(
             body: parsed, statusCode: response.statusCode, message: '');
       } else {
+        print(response.statusCode);
         final Map<String, dynamic> nullObject = {};
         return APIResponse(
             body: nullObject,

@@ -59,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
                 return InternetDialog(
                   onClose: () {
                     _formKey.currentState?.reset();
-                    
                   },
                 );
               },
@@ -94,7 +93,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('ComfortCare'),
+          toolbarHeight: 128,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Image.asset(
+            'assets/icon/comfortCareLogo.png',
+            width: 128,
+            height: 128,
+          ),
           centerTitle: true,
         ),
         body: Center(

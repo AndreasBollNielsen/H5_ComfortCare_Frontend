@@ -17,118 +17,165 @@ class TaskCard extends StatelessWidget {
       elevation: 2,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
-            // Sektion 1 og 2 (side om side)
             Row(
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: 300,
-                  // color: Colors.red,
-                  child: Wrap(
-                    spacing: 80,
-                    runSpacing: 0,
-                    children: [
-                      Container(
-                        height: 80,
-                        width: 200,
-                        child: TextFormField(
-                          enabled: false,
-                          style: TaskStyle.taskStyle,
-                          initialValue: formatter.format(task.startDate),
-                          decoration: InputDecoration(
-                            labelText: 'Dato',
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: 300,
+                    // color: Colors.red,
+                    child: Wrap(
+                      spacing: 80,
+                      runSpacing: 0,
+                      children: [
+                        Container(
+                          height: 80,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: task.title,
+                            decoration: InputDecoration(
+                              labelText: 'Opgave',
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 80,
-                        width: 200,
-                        child: TextFormField(
-                          enabled: false,
-                          style: TaskStyle.taskStyle,
-                          initialValue: '${task.citizenName}',
-                          decoration: InputDecoration(
-                            labelText: 'Borger',
+                        Container(
+                          height: 80,
+                          width: 200,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: formatter.format(task.startDate),
+                            decoration: InputDecoration(
+                              labelText: 'Dato',
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 80,
-                        child: TextFormField(
-                          enabled: false,
-                          style: TaskStyle.taskStyle,
-                          initialValue: '${task.address.streetName}',
-                          decoration: InputDecoration(
-                            labelText: 'Gade',
+                        Container(
+                          height: 80,
+                          width: 200,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: '${task.citizenName}',
+                            decoration: InputDecoration(
+                              labelText: 'Borger',
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 80,
-                        child: TextFormField(
-                          enabled: false,
-                          style: TaskStyle.taskStyle,
-                          initialValue: '${task.address.localArea}',
-                          decoration: InputDecoration(
-                            labelText: 'Lokalområde',
+                        Container(
+                          height: 80,
+                          width: 200,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: '${task.address.streetName}',
+                            decoration: InputDecoration(
+                              labelText: 'Gade',
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 80,
-                        // color: Colors.green,
-                        child: TextFormField(
-                          enabled: false,
-                          style: TaskStyle.taskStyle,
-                          initialValue: '${task.address.city}',
-                          decoration: InputDecoration(
-                            labelText: 'Postnummer',
+                        Container(
+                          height: 80,
+                          width: 200,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: '${task.address.localArea}',
+                            decoration: InputDecoration(
+                              labelText: 'Lokalområde',
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          height: 80,
+                          // color: Colors.green,
+                          child: TextFormField(
+                            enabled: false,
+                            style: TaskStyle.taskStyle,
+                            initialValue: '${task.address.city}',
+                            decoration: InputDecoration(
+                              labelText: 'Postnummer',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                //right section to google maps
                 Expanded(
-                  child: Container(
-                    height: 300,
-                    color: Colors.blue,
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          String destination =
-                              "${task.address.streetName},${task.address.city}"; // Erstat med din destination adresse
-                          launchURL(destination);
-                        },
-                        child: Text("Åbn Google Maps"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 300,
+                      // color: Colors.blue,
+
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              // color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 3,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Positioned.fill(
+                              child: Image.asset(
+                                'assets/icon/google-maps.png',
+                                width: 264,
+                                height: 264,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              String destination =
+                                  "${task.address.streetName},${task.address.city}";
+                              launchURL(destination);
+                            },
+                            child: Text("Åbn Google Maps"),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-            // Sektion 3 (i bunden af sektion 1 og 2)
+            // section description
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Container(
-                      // color: Colors.yellow,
-                      child: TextFormField(
-                        enabled: false,
-                        style: TaskStyle.taskStyle,
-                        initialValue: '${task.description}',
-                        maxLines: null, // Tillad ubegrænset antal linjer
-                        decoration: InputDecoration(
-                          labelText: 'Opgave beskrivelse',
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Container(
+                        // color: Colors.yellow,
+                        child: TextFormField(
+                          enabled: false,
+                          style: TaskStyle.taskStyle,
+                          initialValue: '${task.description}',
+                          maxLines: null, // Tillad ubegrænset antal linjer
+                          decoration: InputDecoration(
+                            labelText: 'Opgave beskrivelse',
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

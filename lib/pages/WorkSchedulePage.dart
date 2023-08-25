@@ -35,9 +35,12 @@ class WorkSchedulePage extends StatelessWidget {
               child: Row(
                 children: [
                   for (int i = 0; i < 7; i++)
-                    DayColumn(
-                      dayName: getDayName(i),
-                      tasks: schedule[i].tasks,
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                      child: DayColumn(
+                        dayName: getDayName(i),
+                        tasks: schedule[i].tasks,
+                      ),
                     ),
                 ],
               ),

@@ -49,12 +49,23 @@ class Task {
       estEndDate = endDate;
     }
 
+    //convert full address into proper format
+    String address = json['address'];
+    List<String> addressParts = address.split(',');
+    addressParts = addressParts.map((part) => part.trim()).toList();
+    addressParts.removeWhere((string) => string.isEmpty);
+    if (addressParts.length < 3) {
+      address = '${addressParts[0]},${addressParts[1]}';
+    } else {
+      address = '${addressParts[0]},${addressParts[1]},${addressParts[2]}';
+    }
+
     return Task(
       title: json['titel'],
       description: json['description'],
       startDate: estStartDate,
       citizenName: json['citizenName'],
-      fullAddress: json['address'],
+      fullAddress: address,
       timeSpan: json['timeSpan'].toDouble(),
       endDate: estEndDate,
       address: Address.fromAddressString(json['address']),

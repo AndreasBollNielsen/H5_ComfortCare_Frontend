@@ -14,7 +14,7 @@ class Address {
 
     //add blank space if local area is not present
     if (addressParts.length < 3) {
-      addressParts.insert(1, ' ');
+      addressParts.insert(1, '');
     }
 
     //retrieve street,localarea and city & return the model

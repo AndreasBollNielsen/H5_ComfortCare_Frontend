@@ -99,7 +99,7 @@ class MyApp extends StatelessWidget {
             body: MainPageContent(
               authorizationService: authService,
               content: DayTaskPage(task: currentTask),
-              title: 'opgave Visning',
+              title: 'OpgaveVisning',
               showBackButton: true,
               isLoggedIn: authService.CheckLoginStatus(),
             ),

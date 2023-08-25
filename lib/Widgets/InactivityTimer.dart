@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InactivityTimer with WidgetsBindingObserver {
-  static const int inactivityDuration =
-      10; // 5 minutter inaktivitet (i sekunder)
+  static const int inactivityDuration =10; // 5 minutter inaktivitet (i sekunder)
   late Timer _timer = Timer(Duration.zero, () {});
   final SharedPreferences _prefs;
 

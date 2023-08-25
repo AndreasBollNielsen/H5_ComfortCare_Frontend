@@ -31,10 +31,14 @@ class ApiClient {
           .timeout(Duration(seconds: 3));
       print(response.statusCode);
       if (response.statusCode == 200) {
-        var result = await response.body;
+        final result = await response.body;
+        final String? jwtToken = response.headers['authorization'];
         final parsed = jsonDecode(result) as Map<String, dynamic>;
         return APIResponse(
-            body: parsed, statusCode: response.statusCode, message: '');
+            body: parsed,
+            statusCode: response.statusCode,
+            message: '',
+            jwt: jwtToken);
       } else {
         final Map<String, dynamic> nullObject = {};
         return APIResponse(

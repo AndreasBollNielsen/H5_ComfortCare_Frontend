@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Model/Task.dart'; // Import your Task model
@@ -168,15 +170,32 @@ class TaskCard extends StatelessWidget {
     );
   }
 
-  //method for launching google maps
-  void launchURL(String destination) async {
-    Uri googleMapsUrl = Uri.parse(
-        "https://www.google.com/maps/dir/?api=1&destination=$destination");
+  // //method for launching google maps
+  // void launchURL(String destination) async {
+  //   Uri googleMapsUrl = Uri.parse(
+  //       "https://www.google.com/maps/dir/?api=1&destination=$destination");
 
-    if (await canLaunchUrl(googleMapsUrl)) {
-      await launchUrl(googleMapsUrl);
+  //   if (await canLaunchUrl(googleMapsUrl)) {
+  //     await launchUrl(googleMapsUrl);
+  //   } else {
+  //     throw 'Could not launch $googleMapsUrl';
+  //   }
+  // }
+
+  void launchURL(String destination) async {
+    String encodedDestination = Uri.encodeFull(destination);
+    Uri googleMapsAppUrl = Uri.parse("geo:0,0?q=$encodedDestination");
+    Uri googleMapsWebUrl = Uri.parse(
+        "https://www.google.com/maps/search/?api=1&query=$encodedDestination");
+
+    if (await canLaunchUrl(googleMapsAppUrl)) {
+      // use google maps app
+      await launchUrl(googleMapsAppUrl);
+    } else if (await canLaunchUrl(googleMapsWebUrl)) {
+      // use google maps web version - no navigation available
+      await launchUrl(googleMapsWebUrl);
     } else {
-      throw 'Could not launch $googleMapsUrl';
+      throw 'Could not launch Google Maps for $encodedDestination';
     }
   }
 }

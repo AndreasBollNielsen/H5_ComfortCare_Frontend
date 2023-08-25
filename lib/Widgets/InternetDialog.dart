@@ -11,8 +11,7 @@ class InternetDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Juster værdien efter dit ønske.
+        borderRadius: BorderRadius.circular(20.0),
       ),
       title: Text('Ingen internet'),
       content: Text(
@@ -22,14 +21,13 @@ class InternetDialog extends StatelessWidget {
           child: Text('Nej'),
           onPressed: () {
             onClose();
-            //  _formKey.currentState?.reset();
-            Navigator.of(context).pop(); // Luk dialogen.
+
+            Navigator.of(context).pop();
           },
         ),
         TextButton(
           child: Text('Ja'),
           onPressed: () {
-            // Navigator.of(context).pop(); // Luk dialogen.
             Navigator.of(context).pop();
 
             Navigator.pushReplacementNamed(context, '/mainPage');

@@ -58,7 +58,7 @@ class ApiClient {
           message: 'oops something went wrong');
     }
   }
-//Deprecated
+//Deprecated--------------------------------------------------------------------
 //get week schedule
   // Future<String> GetWeekSchedule() async {
   //   final url = Uri.parse(baseUrl);
@@ -77,8 +77,9 @@ class ApiClient {
   //     throw Exception('Failed to make GET request: $e');
   //   }
   // }
+  //----------------------------------------------------------------------------
 
-//Deprecated
+//Deprecated--------------------------------------------------------------------
 //generating dummy data
   // String generateDummyWeekScheduleJson() {
   //   final weekplan = [
@@ -99,4 +100,5 @@ class ApiClient {
 
   //   return json.encode(weekplan);
   // }
+  //----------------------------------------------------------------------------
 }

@@ -27,9 +27,7 @@ class MainPageContent extends StatelessWidget {
               child: isLoggedIn
                   ? IconButton(
                       icon: Icon(Icons.exit_to_app),
-                      onPressed: () =>
-                          // Navigator.pushReplacementNamed(context, '/login'),
-                          showDialog(
+                      onPressed: () => showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return LogoutDialog(
@@ -41,19 +39,11 @@ class MainPageContent extends StatelessWidget {
         ],
         title: Text(title),
         centerTitle: true,
-
         leading: showBackButton
             ? BackButton(onPressed: () {
-                final currentRouteName = ModalRoute.of(context)?.settings.name;
                 Navigator.pop(context);
-
-                // if (currentRouteName == '/daySchedule') {
-                // } else if (currentRouteName == '/dayTask') {
-                //   Navigator.pop(context);
-                // }
               })
             : null,
-        // Other app bar settings...
       ),
       body: content,
     );

@@ -15,50 +15,63 @@ class DaySchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
-        children: [
-          for (Task task in tasks)
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/dayTask',
-                  arguments: {'task': task}),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text(
-                          '${task.startDate.hour.toString().padLeft(2, '0')}:${task.startDate.minute.toString().padLeft(2, '0')} - ${task.endDate.hour.toString().padLeft(2, '0')}:${task.endDate.minute.toString().padLeft(2, '0')}'),
-                      Text(
-                        task.title,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            child: Wrap(
+              children: [
+                for (Task task in tasks)
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/dayTask',
+                        arguments: {'task': task}),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.20,
+                        height: MediaQuery.of(context).size.height * 0.26,
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${task.GetDateHourFormatted(task.startDate)} - ${task.GetDateHourFormatted(task.endDate)}',
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              task.title,
+                              // style: TextStyle(
+                              //   fontSize: 16,
+                              // ),
+                            ),
+                            Text('${task.citizenName}'),
+                            SizedBox(height: 8),
+                            Text(
+                              '${task.address.streetName}${task.address.localArea.isNotEmpty ? ',${task.address.localArea}' : ''}\n${task.address.city}',
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 8),
-                      SizedBox(height: 8),
-                      Text(task.fullAddress)
-                    ],
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-        ],
+                    ),
+                  )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

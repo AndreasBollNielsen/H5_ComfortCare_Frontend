@@ -10,30 +10,36 @@ class AuthService {
 
   AuthService({required this.apiService, required this.repoService});
 
+  // method returns response data from api
   Future<APIResponse?> login(String userName, String password) async {
     try {
       final response =
           await apiService.login(Employee(name: userName, password: password));
 
+      //if user is validated, data is stored locally
       if (response.statusCode == 200) {
         await repoService.storeWeekplan(response.body);
         _isLoggedin = true;
-      } else if (response.statusCode == 500) {}
+      }
 
+      //return response data
       return response;
     } catch (e) {
       print('An error occurred during login: $e');
     }
   }
 
+  //log out user
   void Logout() {
     _isLoggedin = false;
   }
 
+  //checks login status
   bool CheckLoginStatus() {
     return _isLoggedin;
   }
 
+  //logs the user in with their credentials are present in securestorage
   Future<bool> checkUserLogin() async {
     if (await this.repoService.GetUserInitials()) {
       _isLoggedin = true;

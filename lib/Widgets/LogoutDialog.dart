@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../Services/AuthenticationService.dart';
 
 class LogoutDialog extends StatelessWidget {
-  // final String title;
-  // final String content;
   final AuthService authService;
 
   LogoutDialog({required this.authService});
@@ -12,8 +10,7 @@ class LogoutDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(20.0), // Juster værdien efter dit ønske.
+        borderRadius: BorderRadius.circular(20.0),
       ),
       title: Text('Log ud'),
       content: Text('Er du sikker på du vil logge ud af applikationen?'),
@@ -21,23 +18,16 @@ class LogoutDialog extends StatelessWidget {
         TextButton(
           child: Text('Nej'),
           onPressed: () {
-            //  _formKey.currentState?.reset();
-            Navigator.of(context).pop(); // Luk dialogen.
+            Navigator.of(context).pop();
           },
         ),
         TextButton(
           child: Text('Ja'),
           onPressed: () {
-            //  Navigator.of(context).pop(); // Luk dialogen.
-            // Navigator.of(context).pop();
-            // Navigator.of(context).popUntil((route) => false);
+            //set login bool
             authService.Logout();
-            // Navigator.pushReplacementNamed(context, '/login');
-            // Navigator.of(context).popUntil((route) {
-            //   // Check om ruten er login-siden
-            //   return route.settings.name == '/login';
-            // });
 
+            //pop all stacks until first route
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacementNamed(context, '/login');
           },

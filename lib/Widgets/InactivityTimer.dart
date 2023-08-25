@@ -13,20 +13,20 @@ class InactivityTimer with WidgetsBindingObserver {
     _resetTimer();
   }
 
-  // Nulstil timeren og opdater sidstAktivitet tidspunkt.
+  // reset timer
   void _resetTimer() {
     _timer?.cancel();
     _timer = Timer(Duration(seconds: inactivityDuration), _showLogoutDialog);
     _prefs.setInt('lastActivity', DateTime.now().millisecondsSinceEpoch);
   }
 
-  // Vis logout-dialogboksen.
+  //may not be used
+  // show log out dialog
   void _showLogoutDialog() {
-    // Implementér visning af dialogboksen her.
     print('Brugeren er logget ud på grund af inaktivitet.');
   }
 
-  // Lyt til livscyklushændelser og nulstil timeren ved aktivitet.
+  // listening for changes in the lifecycle and resets timer if user touches the app
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {

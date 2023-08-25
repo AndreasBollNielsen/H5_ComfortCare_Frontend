@@ -40,9 +40,9 @@ class Task {
       estStartDate = tz.TZDateTime.from(startDate, est);
       estEndDate = tz.TZDateTime.from(endDate, est);
 
-      //DEBUG
-      print(
-          'before: ${startDate.timeZoneOffset} after: ${estStartDate.timeZoneOffset} date: ${startDate}');
+      //DEBUG-------------------------------------------------------------------
+      // print('before: ${startDate.timeZoneOffset} after: ${estStartDate.timeZoneOffset} date: ${startDate}');
+      //------------------------------------------------------------------------
     } else {
       //set the variables to current timezone if timezone is CEST
       estStartDate = startDate;
@@ -83,5 +83,12 @@ class Task {
       'address': fullAddress,
       'timeSpan': timeSpan
     };
+  }
+
+  //helper method to return dateTime in hours & minutes
+  String GetDateHourFormatted(DateTime date) {
+    final dateFormat = DateFormat('HH:mm');
+    final formattedDate = dateFormat.format(date);
+    return formattedDate;
   }
 }

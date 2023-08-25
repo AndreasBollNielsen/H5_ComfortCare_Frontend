@@ -41,20 +41,22 @@ class ReposService {
         //   // if (jsonDate != task.startDate) {
         //   // }
         // }
+        //----------------------------------------------------------------------
 
-        // final assignmentsJson = jsonData['assignments'] as List<dynamic>;
+        //casting json array into dynamic list
         final assignmentsJson = jsonData['assignments'] as List<dynamic>;
 
-        // //DEBUG model
+        // //DEBUG model--------------------------------------------------------
         // for (int index = 0; index < assignmentsJson.length; index++) {
         //   var element = assignmentsJson[index];
         //   var task = Task.fromJson(element);
         //   print('model $index: ${task.startDate}');
         // }
+        //----------------------------------------------------------------------
 
+        //convert dynamic list into task list
         final assignments =
             assignmentsJson.map((taskJson) => Task.fromJson(taskJson)).toList();
-        var test = 0;
 
         //group tasks to same day
         assignments
@@ -99,43 +101,50 @@ class ReposService {
           for (var element in assignments) {
             var currentDay = _getDayName(element.startDate);
 
+            //if days match add task to current day
             if (currentDay == day) {
               tasks.add(element);
-              print(
-                  'currentDay: ${currentDay} nextDay: ${day} tasks: ${tasks.length} date: ${element.startDate}');
+              //Debug-----------------------------------------------------------
+              // print('currentDay: ${currentDay} nextDay: ${day} tasks: ${tasks.length} date: ${element.startDate}');
+
+              //----------------------------------------------------------------
             }
           }
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
-        //DEBUG
-        for (var element in weekTasks) {
-          print('day: ${element.day} tasks: ${element.tasks.length}');
-        }
+        //DEBUG-----------------------------------------------------------------
+        // for (var element in weekTasks) {
+        //   print('day: ${element.day} tasks: ${element.tasks.length}');
+        // }
+        //----------------------------------------------------------------------
 
+        //groups week days into same groups
         weekTasks.sort(
             (a, b) => a.tasks[0].startDate.compareTo(b.tasks[0].startDate));
 
+        //sorts tasks start time from lowest to highest numerically
         for (var weektask in weekTasks) {
           weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
         }
+
+        //Deprecated------------------------------------------------------------
         //  sort time periods from morning to night
         // for (var daytask in weekTasks) {
         //   daytask.tasks.sort((task1, task2) {
-        //     // var startTime1 = task1.startDate.hour * 60 + task1.startDate.minute;
-        //     // var startTime2 = task2.startDate.hour * 60 + task2.startDate.minute;
+        //   var startTime1 = task1.startDate.hour * 60 + task1.startDate.minute;
+        //   var startTime2 = task2.startDate.hour * 60 + task2.startDate.minute;
+        //   if (startTime1 < 7 * 60) startTime1 += 24 * 60;
+        //   if (startTime2 < 7 * 60) startTime2 += 24 * 60;
 
-        //     // // Hvis starttiden er efter midnat (dvs. tidlig morgen), tilføj 24 timer for korrekt sammenligning.
-        //     // if (startTime1 < 7 * 60) startTime1 += 24 * 60;
-        //     // if (startTime2 < 7 * 60) startTime2 += 24 * 60;
-
-        //     // return startTime1.compareTo(startTime2);
+        //   return startTime1.compareTo(startTime2);
 
         //   });
         // }
         //  print('number of tasks ${weekTasks[0].tasks.length}');
+        //----------------------------------------------------------------------
 
-        //DEBUG clear securestorage
+        //clear securestorage
         await storage.deleteAll();
 
         // store weekplan in secure storage as JSON-string
@@ -156,6 +165,7 @@ class ReposService {
     }
   }
 
+  //method that retrieves the week schedule model
   Future<List<DayTasks>?> GetDaySchedule() async {
     var readSchedule = await _getStorageData();
 
@@ -163,9 +173,11 @@ class ReposService {
       return readSchedule;
     } else {
       print("No data found.");
+      return null;
     }
   }
 
+  //gets week schedule data from securestorage
   Future<List<DayTasks>?> _getStorageData() async {
     final data = await storage.read(key: 'weekTasks');
     final jsonData = json.decode(data!);
@@ -175,8 +187,10 @@ class ReposService {
           .toList();
       return dayTasksList;
     }
+    return null;
   }
 
+  //gets user credentials from securestorage
   Future<bool> GetUserInitials() async {
     final data = await storage.read(key: 'user');
 
@@ -191,24 +205,13 @@ class ReposService {
 
   // Helper method to get the day name
   String _getDayName(DateTime date) {
-    // final now = DateTime.now();
-    // final dayIndex = (now.weekday + index) % 7;
-    // return [
-    //   'Mandag',
-    //   'Tirsdag',
-    //   'Onsdag',
-    //   'Torsdag',
-    //   'Fredag',
-    //   'Lørdag',
-    //   'Søndag'
-    // ][dayIndex];
-    final weekdayFormat =
-        DateFormat('EEEE', 'da_DK'); // 'da_DK' for dansk lokalisation
+    final weekdayFormat = DateFormat('EEEE', 'da_DK');
     final dayName = weekdayFormat.format(date.toLocal());
-    // print(dayName);
+
     return _capitalizeFirstLetter(dayName);
   }
 
+  //Helper method to capitalize first letter
   String _capitalizeFirstLetter(String input) {
     if (input.isEmpty) {
       return input;

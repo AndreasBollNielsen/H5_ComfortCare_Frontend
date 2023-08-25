@@ -109,46 +109,29 @@ class TaskCard extends StatelessWidget {
                 ),
                 //right section to google maps
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 300,
-                      // color: Colors.blue,
+                  child: Container(
+                    height: 300,
+                    // color: Colors.blue,
 
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              // color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 3,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Positioned.fill(
-                              child: Image.asset(
-                                'assets/icon/google-maps.png',
-                                width: 264,
-                                height: 264,
-                              ),
-                            ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned.fill(
+                          child: Image.asset(
+                            'assets/icon/google-maps.png',
+                            width: 264,
+                            height: 264,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              String destination =
-                                  "${task.address.streetName},${task.address.city}";
-                              launchURL(destination);
-                            },
-                            child: Text("Åbn Google Maps"),
-                          ),
-                        ],
-                      ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            String destination =
+                                "${task.address.streetName},${task.address.city}";
+                            launchURL(destination);
+                          },
+                          child: Text("Åbn Google Maps"),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -168,7 +151,7 @@ class TaskCard extends StatelessWidget {
                           enabled: false,
                           style: TaskStyle.taskStyle,
                           initialValue: '${task.description}',
-                          maxLines: null, // Tillad ubegrænset antal linjer
+                          maxLines: null,
                           decoration: InputDecoration(
                             labelText: 'Opgave beskrivelse',
                           ),
@@ -185,6 +168,7 @@ class TaskCard extends StatelessWidget {
     );
   }
 
+  //method for launching google maps
   void launchURL(String destination) async {
     Uri googleMapsUrl = Uri.parse(
         "https://www.google.com/maps/dir/?api=1&destination=$destination");

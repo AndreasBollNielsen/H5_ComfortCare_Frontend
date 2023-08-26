@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     //check if user has filled out form
     if (_formKey.currentState!.validate()) {
       var response = await authService.login(
-          _usernameController.text, _usernameController.text);
+          _usernameController.text, _passwordController.text);
 
       //if successful response check status codes
       if (response != null) {

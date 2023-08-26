@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comfortcare/Services/InactivityService.dart';
 import 'package:flutter_comfortcare/Widgets/InactivityTimer.dart';
 import '../Model/Task.dart'; // Import the Task class
 
 class DayColumn extends StatelessWidget {
   final String dayName;
   final List<Task> tasks;
+  final AutoLogoutService inactivityService;
 
-  DayColumn({required this.dayName, required this.tasks});
+  DayColumn(
+      {required this.dayName,
+      required this.tasks,
+      required this.inactivityService});
 
   //final InactivityTimer inactivityTimer =InactivityTimer(_prefs)
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/daySchedule',
-          arguments: {'tasks': this.tasks}),
+      onTap: () => {
+        Navigator.pushNamed(context, '/daySchedule',
+            arguments: {'tasks': this.tasks}),
+        inactivityService.ResetTimer()
+      },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
         margin: EdgeInsets.symmetric(horizontal: 8),
@@ -58,8 +66,11 @@ class DayColumn extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   Task task = tasks[index];
                   return GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/dayTask',
-                        arguments: {'task': task}),
+                    onTap: () => {
+                      Navigator.pushNamed(context, '/dayTask',
+                          arguments: {'task': task}),
+                      inactivityService.ResetTimer()
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Container(

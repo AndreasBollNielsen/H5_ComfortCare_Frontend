@@ -10,14 +10,14 @@ import '/Model/Task.dart';
 
 class ApiClient {
   //home ip
-  //final String baseUrl = 'http://192.168.0.180:5270/api/Test/LoginTestEmployee';
+  final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
 
   //schoolIp
   // final String baseUrl =     'http://10.108.137.227:5270/api/Test/LoginTestEmployee';
 
   //server
-  final String baseUrl =
-      'https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
+  // final String baseUrl =
+  //     'https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
 
   ApiClient();
 

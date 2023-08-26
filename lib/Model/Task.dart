@@ -63,11 +63,13 @@ class Task {
     return Task(
       title: json['titel'],
       description: json['description'],
-      startDate: estStartDate,
+      // startDate: estStartDate,
+      startDate: DateTime.parse(json['startDate']),
       citizenName: json['citizenName'],
       fullAddress: address,
       timeSpan: json['timeSpan'].toDouble(),
-      endDate: estEndDate,
+      // endDate: estEndDate,
+      endDate: DateTime.parse(json['endDate']),
       address: Address.fromAddressString(json['address']),
     );
   }

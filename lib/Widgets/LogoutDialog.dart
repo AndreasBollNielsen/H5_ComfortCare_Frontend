@@ -25,11 +25,8 @@ class LogoutDialog extends StatelessWidget {
           child: Text('Ja'),
           onPressed: () {
             //set login bool
-            authService.Logout();
+            authService.Logout(context);
 
-            //pop all stacks until first route
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacementNamed(context, '/login');
           },
         ),
       ],

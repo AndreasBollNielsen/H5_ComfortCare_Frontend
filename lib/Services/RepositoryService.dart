@@ -101,6 +101,8 @@ class ReposService {
           for (var element in assignments) {
             var currentDay = _getDayName(element.startDate);
 
+            if (currentDay == 'Friday') {}
+
             //if days match add task to current day
             if (currentDay == day) {
               tasks.add(element);
@@ -110,22 +112,45 @@ class ReposService {
               //----------------------------------------------------------------
             }
           }
+
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
         //DEBUG-----------------------------------------------------------------
-        // for (var element in weekTasks) {
-        //   print('day: ${element.day} tasks: ${element.tasks.length}');
-        // }
+        for (var element in weekTasks) {
+          print('day: ${element.day} tasks: ${element.tasks.length}');
+        }
         //----------------------------------------------------------------------
 
         //groups week days into same groups
-        weekTasks.sort(
-            (a, b) => a.tasks[0].startDate.compareTo(b.tasks[0].startDate));
+        // try {
+        //   weekTasks.sort(
+        //       (a, b) => a.tasks[0].startDate.compareTo(b.tasks[0].startDate));
+        // } catch (e) {
+        //   print('sort error: $e');
+        // }
+        weekTasks.sort((a, b) {
+          if (a.tasks.isNotEmpty && b.tasks.isNotEmpty) {
+            return a.tasks[0].startDate.compareTo(b.tasks[0].startDate);
+          } else if (a.tasks.isNotEmpty) {
+            // Hvis kun 'a' har opgaver, placer 'b' først
+            return 1;
+          } else if (b.tasks.isNotEmpty) {
+            // Hvis kun 'b' har opgaver, placer 'a' først
+            return -1;
+          } else {
+            // Hvis ingen af dem har opgaver, bevar rækkefølgen
+            return 0;
+          }
+        });
 
         //sorts tasks start time from lowest to highest numerically
-        for (var weektask in weekTasks) {
-          weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
+        try {
+          for (var weektask in weekTasks) {
+            weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
+          }
+        } catch (e) {
+          print('sort numerically: $e');
         }
 
         //Deprecated------------------------------------------------------------

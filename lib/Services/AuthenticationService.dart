@@ -1,6 +1,7 @@
 import 'package:flutter_comfortcare/Model/Employee.dart';
 import 'package:flutter_comfortcare/Services/RepositoryService.dart';
 import '../Model/ResponseBody.dart';
+import 'package:flutter/material.dart';
 import 'APIService.dart';
 
 class AuthService {
@@ -33,8 +34,12 @@ class AuthService {
   }
 
   //log out user
-  void Logout() {
+  void Logout(BuildContext context) {
     _isLoggedin = false;
+
+    //pop all stacks until first route
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   //checks login status

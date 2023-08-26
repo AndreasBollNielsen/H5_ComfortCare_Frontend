@@ -22,7 +22,7 @@ class AuthService {
         if (response.jwt == null) {
           response.jwt = 'test';
         }
-        await repoService.storeWeekplan(response.body, response.jwt!);
+        await repoService.storeWeekplan(response.body, response.jwt!,userName);
         _isLoggedin = true;
       }
 
@@ -48,8 +48,8 @@ class AuthService {
   }
 
   //logs the user in with their credentials are present in securestorage
-  Future<bool> checkUserLogin() async {
-    if (await this.repoService.GetUserInitials()) {
+  Future<bool> checkUserLogin(Employee user) async {
+    if (await this.repoService.GetUserInitials(user)) {
       _isLoggedin = true;
       return true;
     } else {

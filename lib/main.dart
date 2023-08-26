@@ -53,9 +53,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {print('jeg klikker!'), inactivityService.ResetTimer()},
+      onTap: () => {inactivityService.ResetTimer()},
       onVerticalDragUpdate: (details) {
-        print('jeg dragger!');
         inactivityService.ResetTimer();
       },
       child: MaterialApp(
@@ -75,6 +74,7 @@ class MyApp extends StatelessWidget {
             return Scaffold(
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: WorkSchedulePage(
                   reposService: reposService,
                   inactivityService: inactivityService,
@@ -95,6 +95,7 @@ class MyApp extends StatelessWidget {
             return Scaffold(
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: DaySchedulePage(
                   tasks: tasks,
                   reposService: repoService,
@@ -114,6 +115,7 @@ class MyApp extends StatelessWidget {
               // appBar: CustomAppBar(title: 'Main Page'),
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: DayTaskPage(task: currentTask),
                 title: 'OpgaveVisning',
                 showBackButton: true,

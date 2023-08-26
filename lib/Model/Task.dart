@@ -24,6 +24,7 @@ class Task {
 
   //factory to convert json to task
   factory Task.fromJson(Map<String, dynamic> json) {
+    //-----------------------Might getting deprecated --------------------------
     // parse dates and try setting the correct timezone
     final est = tz.getLocation('Europe/Copenhagen');
     final dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss");
@@ -39,15 +40,12 @@ class Task {
       // set the new timezone to CEST
       estStartDate = tz.TZDateTime.from(startDate, est);
       estEndDate = tz.TZDateTime.from(endDate, est);
-
-      //DEBUG-------------------------------------------------------------------
-      // print('before: ${startDate.timeZoneOffset} after: ${estStartDate.timeZoneOffset} date: ${startDate}');
-      //------------------------------------------------------------------------
     } else {
       //set the variables to current timezone if timezone is CEST
       estStartDate = startDate;
       estEndDate = endDate;
     }
+    //--------------------------------------------------------------------------
 
     //convert full address into proper format
     String address = json['address'];

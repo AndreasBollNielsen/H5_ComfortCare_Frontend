@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Services/InactivityService.dart';
 import 'package:flutter_comfortcare/Widgets/DayColumn.dart';
-import '../Widgets/TaskCard.dart'; // Import your TaskCard widget
-import '../Model/Task.dart'; // Import your Task model
+import '../Widgets/TaskCard.dart';
+import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
 
 class DaySchedulePage extends StatelessWidget {
@@ -81,24 +81,9 @@ class DaySchedulePage extends StatelessWidget {
     );
   }
 
-  // Helper methods for fetching day's tasks and name
-  // String getDayName(int index) {
-  //   final now = DateTime.now();
-  //   final dayIndex = (now.weekday + index) % 7;
-  //   return [
-  //     'Monday',
-  //     'Tuesday',
-  //     'Wednesday',
-  //     'Thursday',
-  //     'Friday',
-  //     'Saturday',
-  //     'Sunday'
-  //   ][dayIndex];
-  // }
-
   Future<List<Task>> getTasksForDay(int index) async {
-    final now = DateTime.now();
-    final dayIndex = (now.weekday + index) % 7;
+    // final now = DateTime.now();
+    // final dayIndex = (now.weekday + index) % 7;
 
     //first implementation of repoService
     var schedule = await this.reposService.GetDaySchedule();

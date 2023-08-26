@@ -16,7 +16,7 @@ class InactivityDialog extends StatelessWidget {
         TextButton(
           child: Text('ok'),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/mainPage');
+            Navigator.pop(context);
           },
         ),
       ],

@@ -14,7 +14,7 @@ class DayColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/daySchedule',
-          arguments: {'day': this.dayName, 'dayIndex': 0, 'tasks': this.tasks}),
+          arguments: {'tasks': this.tasks}),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
         margin: EdgeInsets.symmetric(horizontal: 8),

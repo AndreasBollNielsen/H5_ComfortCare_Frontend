@@ -18,7 +18,10 @@ class AuthService {
 
       //if user is validated, data is stored locally
       if (response.statusCode == 200) {
-        await repoService.storeWeekplan(response.body);
+        if (response.jwt == null) {
+          response.jwt = 'test';
+        }
+        await repoService.storeWeekplan(response.body, response.jwt!);
         _isLoggedin = true;
       }
 

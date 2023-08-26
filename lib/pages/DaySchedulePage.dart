@@ -5,13 +5,10 @@ import '../Model/Task.dart'; // Import your Task model
 import '../Services/RepositoryService.dart';
 
 class DaySchedulePage extends StatelessWidget {
-  final int dayIndex;
+  //final int dayIndex;
   final ReposService reposService;
   late List<Task> tasks = [];
-  DaySchedulePage(
-      {required this.dayIndex,
-      required this.reposService,
-      required this.tasks});
+  DaySchedulePage({required this.reposService, required this.tasks});
 
   @override
   Widget build(BuildContext context) {

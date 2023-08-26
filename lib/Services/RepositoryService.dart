@@ -13,7 +13,7 @@ class ReposService {
   );
 
 //fetch data from api and store it in secure storage
-  Future<void> storeWeekplan(Map<String, dynamic> data) async {
+  Future<void> storeWeekplan(Map<String, dynamic> data, String jwt) async {
     try {
       //check if data is null
       if (data != null) {
@@ -154,6 +154,7 @@ class ReposService {
           final currentUser = json.encode(weekTasks[0].name);
           await storage.write(key: 'weekTasks', value: weekTasksJson);
           await storage.write(key: 'user', value: currentUser);
+          await storage.write(key: 'jwt', value: jwt);
         } catch (e) {
           print("failed to write to secureStorage: $e");
         }
@@ -190,15 +191,20 @@ class ReposService {
     return null;
   }
 
-  //gets user credentials from securestorage
+  //gets user credentials from securestorage or jwt token
   Future<bool> GetUserInitials() async {
-    final data = await storage.read(key: 'user');
-
+    final data = await storage.read(key: 'jwt');
+    //return true if jwt is stored
     if (data != null) {
-      final jsonData = json.decode(data!);
-      print(jsonData);
       return true;
     } else {
+      //------------------------------------------------------------------------
+      //simple hack to validate if user credentials are present instead of jwt
+      final userData = await storage.read(key: 'user');
+      if (userData != null) {
+        return true;
+      }
+      //------------------------------------------------------------------------
       return false;
     }
   }

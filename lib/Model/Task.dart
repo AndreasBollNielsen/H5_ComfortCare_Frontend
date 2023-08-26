@@ -91,4 +91,10 @@ class Task {
     final formattedDate = dateFormat.format(date);
     return formattedDate;
   }
+
+  //helper method to return dateTime in weekDay & date
+  String ConvertToDate(DateTime date) {
+    final DateFormat formatter = DateFormat('EEEE d MMMM', 'da_DK');
+    return formatter.format(date);
+  }
 }

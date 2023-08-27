@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comfortcare/Services/InactivityService.dart';
 import '../Services/AuthenticationService.dart';
 
 class LogoutDialog extends StatelessWidget {
   final AuthService authService;
+  final AutoLogoutService inactivityService;
 
-  LogoutDialog({required this.authService});
+  LogoutDialog({required this.authService, required this.inactivityService});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class LogoutDialog extends StatelessWidget {
         TextButton(
           child: Text('Nej'),
           onPressed: () {
+            inactivityService.ResetTimer();
             Navigator.of(context).pop();
           },
         ),
@@ -25,11 +28,8 @@ class LogoutDialog extends StatelessWidget {
           child: Text('Ja'),
           onPressed: () {
             //set login bool
-            authService.Logout();
-
-            //pop all stacks until first route
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacementNamed(context, '/login');
+            inactivityService.StopTimer();
+            authService.Logout(context);
           },
         ),
       ],

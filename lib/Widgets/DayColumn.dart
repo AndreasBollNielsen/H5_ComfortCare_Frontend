@@ -1,20 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comfortcare/Widgets/InactivityTimer.dart';
-import '../Model/Task.dart'; // Import the Task class
+import 'package:flutter_comfortcare/Services/InactivityService.dart';
+import '../Model/Task.dart';
 
-class DayColumn extends StatelessWidget {
+class DayColumn extends StatefulWidget {
   final String dayName;
   final List<Task> tasks;
+  final AutoLogoutService inactivityService;
 
-  DayColumn({required this.dayName, required this.tasks});
+  DayColumn(
+      {required this.dayName,
+      required this.tasks,
+      required this.inactivityService});
 
-  //final InactivityTimer inactivityTimer =InactivityTimer(_prefs)
+  @override
+  State<DayColumn> createState() => _DayColumnState();
+}
+
+class _DayColumnState extends State<DayColumn> {
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController.addListener(() {
+      widget.inactivityService.ResetTimer();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/daySchedule',
-          arguments: {'tasks': this.tasks}),
+      onTap: () => {
+        //push to next route if tasks exists
+        if (this.widget.tasks.length > 0)
+          {
+            Navigator.pushNamed(context, '/daySchedule',
+                arguments: {'tasks': this.widget.tasks})
+          },
+        widget.inactivityService.ResetTimer()
+      },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.25,
         margin: EdgeInsets.symmetric(horizontal: 8),
@@ -35,7 +66,7 @@ class DayColumn extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Text(dayName,
+              child: Text(widget.dayName,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -54,12 +85,16 @@ class DayColumn extends StatelessWidget {
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: tasks.length,
+                controller: _scrollController,
+                itemCount: widget.tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Task task = tasks[index];
+                  Task task = widget.tasks[index];
                   return GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/dayTask',
-                        arguments: {'task': task}),
+                    onTap: () => {
+                      Navigator.pushNamed(context, '/dayTask',
+                          arguments: {'task': task}),
+                      widget.inactivityService.ResetTimer()
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Container(

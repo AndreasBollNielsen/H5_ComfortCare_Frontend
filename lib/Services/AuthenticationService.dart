@@ -1,6 +1,7 @@
 import 'package:flutter_comfortcare/Model/Employee.dart';
 import 'package:flutter_comfortcare/Services/RepositoryService.dart';
 import '../Model/ResponseBody.dart';
+import 'package:flutter/material.dart';
 import 'APIService.dart';
 
 class AuthService {
@@ -21,7 +22,7 @@ class AuthService {
         if (response.jwt == null) {
           response.jwt = 'test';
         }
-        await repoService.storeWeekplan(response.body, response.jwt!);
+        await repoService.storeWeekplan(response.body, response.jwt!,userName);
         _isLoggedin = true;
       }
 
@@ -33,8 +34,12 @@ class AuthService {
   }
 
   //log out user
-  void Logout() {
+  void Logout(BuildContext context) {
     _isLoggedin = false;
+
+    //pop all stacks until first route
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   //checks login status
@@ -43,8 +48,8 @@ class AuthService {
   }
 
   //logs the user in with their credentials are present in securestorage
-  Future<bool> checkUserLogin() async {
-    if (await this.repoService.GetUserInitials()) {
+  Future<bool> checkUserLogin(Employee user) async {
+    if (await this.repoService.GetUserInitials(user)) {
       _isLoggedin = true;
       return true;
     } else {

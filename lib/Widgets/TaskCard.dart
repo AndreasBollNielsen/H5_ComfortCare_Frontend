@@ -170,18 +170,6 @@ class TaskCard extends StatelessWidget {
     );
   }
 
-  // //method for launching google maps
-  // void launchURL(String destination) async {
-  //   Uri googleMapsUrl = Uri.parse(
-  //       "https://www.google.com/maps/dir/?api=1&destination=$destination");
-
-  //   if (await canLaunchUrl(googleMapsUrl)) {
-  //     await launchUrl(googleMapsUrl);
-  //   } else {
-  //     throw 'Could not launch $googleMapsUrl';
-  //   }
-  // }
-
   void launchURL(String destination) async {
     String encodedDestination = Uri.encodeFull(destination);
     Uri googleMapsAppUrl = Uri.parse("geo:0,0?q=$encodedDestination");

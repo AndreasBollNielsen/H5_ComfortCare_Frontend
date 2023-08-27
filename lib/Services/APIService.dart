@@ -1,15 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 import 'package:flutter_comfortcare/Model/ResponseBody.dart';
 import 'package:http/http.dart' as http;
-import '../Model/DayTasks.dart';
 import '../Model/Employee.dart';
-import '/Model/Task.dart';
 
 class ApiClient {
-  final String baseUrl = 'http://192.168.1.182:5270/api/Login/Employee';
+
+  //home ip
+  final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
+
+  //schoolIp
+  // final String baseUrl ='http://10.108.137.227:5270/api/Test/LoginTestEmployee';
+
+  //server
+  // final String baseUrl ='https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
+
 
   ApiClient();
 
@@ -21,7 +26,7 @@ class ApiClient {
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)
           .timeout(Duration(seconds: 3));
-      print(response.statusCode);
+      // print(response.statusCode);
       if (response.statusCode == 200) {
         final result = await response.body;
         final String? jwtToken = response.headers['authorization'];
@@ -50,7 +55,7 @@ class ApiClient {
       final Map<String, dynamic> errorResponse = {'error': e.toString()};
       return APIResponse(
           body: errorResponse,
-          statusCode: 500,
+          statusCode: 503,
           message: 'oops something went wrong');
     }
   }

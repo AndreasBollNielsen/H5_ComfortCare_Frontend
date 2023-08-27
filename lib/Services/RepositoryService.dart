@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../Model/Employee.dart';
 import 'APIService.dart';
 import '/Model/DayTasks.dart';
 import '/Model/Task.dart';
@@ -13,7 +14,8 @@ class ReposService {
   );
 
 //fetch data from api and store it in secure storage
-  Future<void> storeWeekplan(Map<String, dynamic> data, String jwt) async {
+  Future<void> storeWeekplan(
+      Map<String, dynamic> data, String jwt, String userName) async {
     try {
       //check if data is null
       if (data != null) {
@@ -41,25 +43,41 @@ class ReposService {
           for (var element in assignments) {
             var currentDay = _getDayName(element.startDate);
 
+            if (currentDay == 'Friday') {}
+
             //if days match add task to current day
             if (currentDay == day) {
               tasks.add(element);
             }
           }
+
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
-        //groups week days into same groups
-        try {
-          weekTasks.sort(
-              (a, b) => a.tasks[0].startDate.compareTo(b.tasks[0].startDate));
-        } catch (er) {
-          print(er);
-        }
+
+        weekTasks.sort((a, b) {
+          if (a.tasks.isNotEmpty && b.tasks.isNotEmpty) {
+            return a.tasks[0].startDate.compareTo(b.tasks[0].startDate);
+          } else if (a.tasks.isNotEmpty) {
+            //if only a has assignments place b first
+            return 1;
+          } else if (b.tasks.isNotEmpty) {
+            // if only b has assignments place a first
+            return -1;
+          } else {
+            // if neigher has assignments preserve list
+            return 0;
+          }
+        });
+
 
         //sorts tasks start time from lowest to highest numerically
-        for (var weektask in weekTasks) {
-          weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
+        try {
+          for (var weektask in weekTasks) {
+            weektask.tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
+          }
+        } catch (e) {
+          print('sort numerically: $e');
         }
 
         //clear securestorage
@@ -69,7 +87,8 @@ class ReposService {
         try {
           final weekTasksJson = json
               .encode(weekTasks.map((dayTasks) => dayTasks.toJson()).toList());
-          final currentUser = json.encode(weekTasks[0].name);
+          //  final currentUser = json.encode(weekTasks[0].name);
+          final currentUser = userName;
           await storage.write(key: 'weekTasks', value: weekTasksJson);
           await storage.write(key: 'user', value: currentUser);
           await storage.write(key: 'jwt', value: jwt);
@@ -110,17 +129,22 @@ class ReposService {
   }
 
   //gets user credentials from securestorage or jwt token
-  Future<bool> GetUserInitials() async {
+  Future<bool> GetUserInitials(Employee user) async {
+    //maybe future use of jwt
     final data = await storage.read(key: 'jwt');
-    //return true if jwt is stored
-    if (data != null) {
-      return true;
-    } else {
-      //simple hack to validate if user credentials are present instead of jwt
-      final userData = await storage.read(key: 'user');
-      if (userData != null) {
+
+
+    //fetch username from securestorage
+    final userData = await storage.read(key: 'user');
+
+    //check if user exists & compare to current login attempt
+    if (userData != null) {
+      if (userData == user.name) {
         return true;
       }
+      return false;
+    } else {
+
       return false;
     }
   }

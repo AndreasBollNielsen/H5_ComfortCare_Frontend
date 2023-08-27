@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comfortcare/Model/Employee.dart';
 import 'package:http/http.dart';
 import '../Widgets/MainPageContent.dart';
 import '../Services/AuthenticationService.dart';
@@ -43,38 +44,92 @@ class _LoginPageState extends State<LoginPage> {
       var response = await authService.login(
           _usernameController.text, _passwordController.text);
 
+
+      Employee user = Employee(
+          name: _usernameController.text, password: _passwordController.text);
+
+
       //if successful response check status codes
       if (response != null) {
         //successful login
         if (response.statusCode == 200) {
           // Navigate to the MainPage after successful login
           Navigator.pushReplacementNamed(context, '/mainPage');
-        } else if (response.statusCode == 500) {
+        }
+        //status 500 data not available
+        else if (response.statusCode == 500) {
+          String title;
+          title = 'Data ikke tilgængelig';
+
+          //check user loging
           //check if user is stored in securestorage
-          if (await this.authService.checkUserLogin()) {
+          if (await this.authService.checkUserLogin(user)) {
             //show dialog box if user is saved in securestorage
+
+            //username validated - continuing to dialogbox
+            await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return InternetDialog(
+                    title: title,
+                    onClose: () {
+                      _formKey.currentState?.reset();
+                    },
+                  );
+                });
+          }
+          //user is invalid - showing wrong user dialogbox
+          else {
+            //show dialog box if user is not stored in securestorage
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return WrongUserDialog(
+                  content:
+                      'Brugeren eksisterer ikke lokalt, prøv igen senere når data er tilgængelig',
+                );
+              },
+            );
+          }
+        }
+        //status 503 - no internet
+        else if (response.statusCode == 503) {
+          String title;
+          title = 'Ingen internet';
+
+          //check user loging
+          //check if user is stored in securestorage
+          if (await this.authService.checkUserLogin(user)) {
+            //show dialog box if user is saved in securestorage
+            //username validated - continuing to dialogbox
             await showDialog(
               context: context,
               builder: (BuildContext context) {
                 return InternetDialog(
+                  title: title,
                   onClose: () {
                     _formKey.currentState?.reset();
                   },
                 );
               },
             );
-          } else {
+          }
+          //user is invalid - showing wrong user dialogbox
+          else {
             //show dialog box if user is not stored in securestorage
             await showDialog(
               context: context,
               builder: (BuildContext context) {
                 return WrongUserDialog(
-                  content: 'Forkert bruger, prøv igen med wifi slået til',
+                  content:
+                      'Brugeren eksisterer ikke lokalt, for at få adgang skal du være online',
                 );
               },
             );
           }
-        } else if (response.statusCode == 400) {
+        }
+        //status 400 - user credentials wrong
+        else if (response.statusCode == 400) {
           //show dialog box if username and password is wrong
           await showDialog(
             context: context,

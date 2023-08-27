@@ -5,15 +5,42 @@ import '../Widgets/MainPageContent.dart';
 import '../Widgets/DayColumn.dart';
 import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
+import '../Services/InactivityService.dart';
 
-class WorkSchedulePage extends StatelessWidget {
+class WorkSchedulePage extends StatefulWidget {
   final ReposService reposService;
+  final AutoLogoutService inactivityService;
+
+  WorkSchedulePage(
+      {required this.reposService, required this.inactivityService});
+
+  @override
+  State<WorkSchedulePage> createState() => _WorkSchedulePageState();
+}
+
+class _WorkSchedulePageState extends State<WorkSchedulePage> {
   late List<DayTasks> schedule;
-  WorkSchedulePage({required this.reposService});
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController.addListener(() {
+      widget.inactivityService.ResetTimer();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<List<DayTasks>> fetchSchedule() async {
-    final currentschedule = await reposService.GetDaySchedule();
+    final currentschedule = await widget.reposService.GetDaySchedule();
     schedule = currentschedule!;
+
     return schedule ?? [];
   }
 
@@ -28,18 +55,21 @@ class WorkSchedulePage extends StatelessWidget {
           return Text('An error occurred: ${snapshot.error}');
         } else if (snapshot.hasData) {
           List<DayTasks> schedule = snapshot.data!;
-
+          widget.inactivityService.context = context;
+          widget.inactivityService.ResetTimer();
           return Scaffold(
             body: SingleChildScrollView(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  for (int i = 0; i < 7; i++)
+                  for (int i = 0; i < schedule.length; i++)
                     Padding(
                       padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
                       child: DayColumn(
                         dayName: getDayName(i),
                         tasks: schedule[i].tasks,
+                        inactivityService: widget.inactivityService,
                       ),
                     ),
                 ],

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comfortcare/Services/InactivityService.dart';
 import 'package:flutter_comfortcare/Widgets/DayColumn.dart';
-import '../Widgets/TaskCard.dart'; // Import your TaskCard widget
-import '../Model/Task.dart'; // Import your Task model
+import '../Widgets/TaskCard.dart';
+import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
 
 class DaySchedulePage extends StatelessWidget {
   //final int dayIndex;
   final ReposService reposService;
+  final AutoLogoutService inactivityService;
   late List<Task> tasks = [];
-  DaySchedulePage({required this.reposService, required this.tasks});
+  DaySchedulePage(
+      {required this.reposService,
+      required this.inactivityService,
+      required this.tasks});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +26,11 @@ class DaySchedulePage extends StatelessWidget {
               children: [
                 for (Task task in tasks)
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/dayTask',
-                        arguments: {'task': task}),
+                    onTap: () => {
+                      Navigator.pushNamed(context, '/dayTask',
+                          arguments: {'task': task}),
+                      inactivityService.ResetTimer()
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -73,24 +81,9 @@ class DaySchedulePage extends StatelessWidget {
     );
   }
 
-  // Helper methods for fetching day's tasks and name
-  // String getDayName(int index) {
-  //   final now = DateTime.now();
-  //   final dayIndex = (now.weekday + index) % 7;
-  //   return [
-  //     'Monday',
-  //     'Tuesday',
-  //     'Wednesday',
-  //     'Thursday',
-  //     'Friday',
-  //     'Saturday',
-  //     'Sunday'
-  //   ][dayIndex];
-  // }
-
   Future<List<Task>> getTasksForDay(int index) async {
-    final now = DateTime.now();
-    final dayIndex = (now.weekday + index) % 7;
+    // final now = DateTime.now();
+    // final dayIndex = (now.weekday + index) % 7;
 
     //first implementation of repoService
     var schedule = await this.reposService.GetDaySchedule();

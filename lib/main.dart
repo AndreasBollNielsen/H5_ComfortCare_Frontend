@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Model/Task.dart';
+import 'package:flutter_comfortcare/Widgets/InactivityDialog.dart';
 import 'Services/AuthenticationService.dart';
 //import 'Widgets/InactivityTimer.dart';
 import 'pages/LoginPage.dart';
@@ -34,6 +35,7 @@ void main() async {
     authService: authService,
     reposService: repoService,
     prefs: prefs,
+    inactivityService: inactivityService,
   ));
 }
 
@@ -41,16 +43,20 @@ class MyApp extends StatelessWidget {
   final AuthService authService;
   final ReposService reposService;
   final SharedPreferences prefs;
+  final AutoLogoutService inactivityService;
   MyApp(
       {required this.authService,
       required this.reposService,
-      required this.prefs});
+      required this.prefs,
+      required this.inactivityService});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {print('jeg klikker!')},
-      
+      onTap: () => {inactivityService.ResetTimer()},
+      onVerticalDragUpdate: (details) {
+        inactivityService.ResetTimer();
+      },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -68,8 +74,10 @@ class MyApp extends StatelessWidget {
             return Scaffold(
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: WorkSchedulePage(
                   reposService: reposService,
+                  inactivityService: inactivityService,
                 ),
                 title: 'Uge Visning',
                 showBackButton: false,
@@ -87,9 +95,11 @@ class MyApp extends StatelessWidget {
             return Scaffold(
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: DaySchedulePage(
                   tasks: tasks,
                   reposService: repoService,
+                  inactivityService: inactivityService,
                 ),
                 title: dayTitle,
                 showBackButton: true,
@@ -105,6 +115,7 @@ class MyApp extends StatelessWidget {
               // appBar: CustomAppBar(title: 'Main Page'),
               body: MainPageContent(
                 authorizationService: authService,
+                inactivityService: inactivityService,
                 content: DayTaskPage(task: currentTask),
                 title: 'OpgaveVisning',
                 showBackButton: true,
@@ -122,19 +133,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-//   final String title;
-
-//   CustomAppBar({required this.title});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       title: Text(title),
-//     );
-//   }
-
-//   @override
-//   Size get preferredSize => Size.fromHeight(kToolbarHeight);
-// }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Services/InactivityService.dart';
-import '../Model/Task.dart'; // Import the Task class
+import '../Model/Task.dart';
 
 class DayColumn extends StatefulWidget {
   final String dayName;

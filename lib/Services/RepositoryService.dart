@@ -23,38 +23,8 @@ class ReposService {
         Map<String, dynamic> jsonData = data;
         final _name = jsonData['name'] as String;
 
-        //DBUG json-------------------------------------------------------------
-        // for (int index = 0; index < jsonData['assignments'].length; index++) {
-        //   var jsonObj = jsonData['assignments'][index];
-        //   //print('index: $index jData $index: ${jsonObj['startDate']}');
-        //   // print('jData ${jsonObj['startDate']}');
-        //   String raw = jsonObj['startDate'];
-        //   DateTime myDateTime = DateTime.parse(raw);
-        //   String formattedDate = DateFormat.MMMd().format(myDateTime.toLocal());
-        //   //  print('jData $formattedDate'); // Udskriver f.eks. "Aug 12"
-
-        //   var task = Task.fromJson(jsonObj);
-        //   var formattedTask = DateFormat.MMMd().format(task.startDate);
-        //   //  print('index: $index model $index: ${task.startDate}');
-        //   print(
-        //       'raw ${jsonObj['startDate']} jData $formattedDate model ${formattedTask}');
-
-        //   // var jsonDate = DateTime.parse(jsonObj['startDate']);
-        //   // if (jsonDate != task.startDate) {
-        //   // }
-        // }
-        //----------------------------------------------------------------------
-
         //casting json array into dynamic list
         final assignmentsJson = jsonData['assignments'] as List<dynamic>;
-
-        // //DEBUG model--------------------------------------------------------
-        // for (int index = 0; index < assignmentsJson.length; index++) {
-        //   var element = assignmentsJson[index];
-        //   var task = Task.fromJson(element);
-        //   print('model $index: ${task.startDate}');
-        // }
-        //----------------------------------------------------------------------
 
         //convert dynamic list into task list
         final assignments =
@@ -64,36 +34,6 @@ class ReposService {
         assignments
             .sort((a, b) => a.startDate.weekday.compareTo(b.startDate.weekday));
 
-        //DEBUG-----------------------------------------------------------------
-        // int mondays = 0;
-        // int tuesdays = 0;
-        // int wednessdays = 0;
-        // int thursdays = 0;
-        // int fridays = 0;
-        // int saturdays = 0;
-        // int sundays = 0;
-
-        // for (var element in assignments) {
-        //   if (_getDayName(element.startDate) == 'Mandag') {
-        //     mondays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Tirsdag') {
-        //     tuesdays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Onsdag') {
-        //     wednessdays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Torsdag') {
-        //     thursdays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Fredag') {
-        //     fridays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Lørdag') {
-        //     saturdays += 1;
-        //   } else if (_getDayName(element.startDate) == 'Søndag') {
-        //     sundays += 1;
-        //   }
-        // }
-
-        // print(
-        //     'mondays: $mondays\n tuesdays: $tuesdays\n wednessdays: $wednessdays\n thursdays: $thursdays\n fridays: $fridays\n saturdays: $saturdays\n sundays: $sundays\n');
-//------------------------------------------------------------------------------
         //create daytasks list
         List<DayTasks> weekTasks = [];
 
@@ -108,40 +48,23 @@ class ReposService {
             //if days match add task to current day
             if (currentDay == day) {
               tasks.add(element);
-              //Debug-----------------------------------------------------------
-              // print('currentDay: ${currentDay} nextDay: ${day} tasks: ${tasks.length} date: ${element.startDate}');
-
-              //----------------------------------------------------------------
             }
           }
 
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
-        //DEBUG-----------------------------------------------------------------
-        for (var element in weekTasks) {
-          print('day: ${element.day} tasks: ${element.tasks.length}');
-        }
-        //----------------------------------------------------------------------
-
-        //groups week days into same groups
-        // try {
-        //   weekTasks.sort(
-        //       (a, b) => a.tasks[0].startDate.compareTo(b.tasks[0].startDate));
-        // } catch (e) {
-        //   print('sort error: $e');
-        // }
         weekTasks.sort((a, b) {
           if (a.tasks.isNotEmpty && b.tasks.isNotEmpty) {
             return a.tasks[0].startDate.compareTo(b.tasks[0].startDate);
           } else if (a.tasks.isNotEmpty) {
-            // Hvis kun 'a' har opgaver, placer 'b' først
+            //if only a has assignments place b first
             return 1;
           } else if (b.tasks.isNotEmpty) {
-            // Hvis kun 'b' har opgaver, placer 'a' først
+            // if only b has assignments place a first
             return -1;
           } else {
-            // Hvis ingen af dem har opgaver, bevar rækkefølgen
+            // if neigher has assignments preserve list
             return 0;
           }
         });
@@ -154,22 +77,6 @@ class ReposService {
         } catch (e) {
           print('sort numerically: $e');
         }
-
-        //Deprecated------------------------------------------------------------
-        //  sort time periods from morning to night
-        // for (var daytask in weekTasks) {
-        //   daytask.tasks.sort((task1, task2) {
-        //   var startTime1 = task1.startDate.hour * 60 + task1.startDate.minute;
-        //   var startTime2 = task2.startDate.hour * 60 + task2.startDate.minute;
-        //   if (startTime1 < 7 * 60) startTime1 += 24 * 60;
-        //   if (startTime2 < 7 * 60) startTime2 += 24 * 60;
-
-        //   return startTime1.compareTo(startTime2);
-
-        //   });
-        // }
-        //  print('number of tasks ${weekTasks[0].tasks.length}');
-        //----------------------------------------------------------------------
 
         //clear securestorage
         await storage.deleteAll();

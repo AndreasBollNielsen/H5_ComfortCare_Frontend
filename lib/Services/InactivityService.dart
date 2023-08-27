@@ -7,7 +7,7 @@ class AutoLogoutService {
   final AuthService authorizationService;
   late BuildContext? context;
   //countdown in seconds
-  static const int inactivityDuration = (1 * 20);
+  static const int inactivityDuration = (60 * 20);
   late Timer _timer = Timer(Duration.zero, () {});
   AutoLogoutService({required this.authorizationService, this.context});
 

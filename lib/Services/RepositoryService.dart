@@ -42,9 +42,10 @@ class ReposService {
         List<DayTasks> weekTasks = [];
 
         //get earliest date
-        DateTime earliestDate = assignments
-            .map((assignment) => assignment.startDate)
-            .reduce((current, next) => current.isBefore(next) ? current : next);
+        DateTime earliestDate = DateTime.now();
+        // DateTime earliestDate = assignments
+        //     .map((assignment) => assignment.startDate)
+        //     .reduce((current, next) => current.isBefore(next) ? current : next);
 
         //adds task to corresponding day of the week
         for (var day in _getWeekNames(earliestDate)) {

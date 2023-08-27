@@ -32,11 +32,11 @@ class DaySchedulePage extends StatelessWidget {
                       inactivityService.ResetTimer()
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.20,
-                        height: MediaQuery.of(context).size.height * 0.26,
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        width: MediaQuery.of(context).size.width * 0.22,
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        margin: EdgeInsets.all(8),
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,

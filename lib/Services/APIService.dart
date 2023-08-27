@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../Model/Employee.dart';
 
 class ApiClient {
+
   //home ip
   final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
 
@@ -13,6 +14,7 @@ class ApiClient {
 
   //server
   // final String baseUrl ='https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
+
 
   ApiClient();
 

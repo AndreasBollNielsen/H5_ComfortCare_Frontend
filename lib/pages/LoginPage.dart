@@ -44,8 +44,10 @@ class _LoginPageState extends State<LoginPage> {
       var response = await authService.login(
           _usernameController.text, _passwordController.text);
 
+
       Employee user = Employee(
           name: _usernameController.text, password: _passwordController.text);
+
 
       //if successful response check status codes
       if (response != null) {

@@ -54,6 +54,7 @@ class ReposService {
           weekTasks.add(DayTasks(day: day, tasks: tasks, name: _name));
         }
 
+
         weekTasks.sort((a, b) {
           if (a.tasks.isNotEmpty && b.tasks.isNotEmpty) {
             return a.tasks[0].startDate.compareTo(b.tasks[0].startDate);
@@ -68,6 +69,7 @@ class ReposService {
             return 0;
           }
         });
+
 
         //sorts tasks start time from lowest to highest numerically
         try {
@@ -131,6 +133,7 @@ class ReposService {
     //maybe future use of jwt
     final data = await storage.read(key: 'jwt');
 
+
     //fetch username from securestorage
     final userData = await storage.read(key: 'user');
 
@@ -141,6 +144,7 @@ class ReposService {
       }
       return false;
     } else {
+
       return false;
     }
   }

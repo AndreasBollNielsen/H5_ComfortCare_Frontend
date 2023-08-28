@@ -10,7 +10,6 @@ class Task {
   final String citizenName;
   final String fullAddress;
   final Address address;
-  final double timeSpan;
 
   Task(
       {required this.title,
@@ -19,7 +18,6 @@ class Task {
       required this.endDate,
       required this.citizenName,
       required this.fullAddress,
-      required this.timeSpan,
       required this.address});
 
   //factory to convert json to task
@@ -65,7 +63,7 @@ class Task {
       startDate: DateTime.parse(json['startDate']),
       citizenName: json['citizenName'],
       fullAddress: address,
-      timeSpan: json['timeSpan'].toDouble(),
+
       // endDate: estEndDate,
       endDate: DateTime.parse(json['endDate']),
       address: Address.fromAddressString(json['address']),
@@ -80,8 +78,7 @@ class Task {
       'startDate': startDate.toIso8601String(),
       'endDate': endDate.toIso8601String(),
       'citizenName': citizenName,
-      'address': fullAddress,
-      'timeSpan': timeSpan
+      'address': fullAddress
     };
   }
 

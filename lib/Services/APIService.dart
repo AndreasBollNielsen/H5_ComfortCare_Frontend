@@ -5,16 +5,14 @@ import 'package:http/http.dart' as http;
 import '../Model/Employee.dart';
 
 class ApiClient {
-
   //home ip
-  final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
+  //final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
 
   //schoolIp
-  // final String baseUrl ='http://10.108.137.227:5270/api/Test/LoginTestEmployee';
+  final String baseUrl = 'http://10.108.137.142:5270/api/Login/Employee';
 
   //server
   // final String baseUrl ='https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
-
 
   ApiClient();
 
@@ -25,7 +23,7 @@ class ApiClient {
     try {
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)
-          .timeout(Duration(seconds: 3));
+          .timeout(Duration(seconds: 100));
       // print(response.statusCode);
       if (response.statusCode == 200) {
         final result = await response.body;

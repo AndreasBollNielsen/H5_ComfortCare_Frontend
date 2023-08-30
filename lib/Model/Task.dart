@@ -22,29 +22,6 @@ class Task {
 
   //factory to convert json to task
   factory Task.fromJson(Map<String, dynamic> json) {
-    //-----------------------Might getting deprecated --------------------------
-    // parse dates and try setting the correct timezone
-    final est = tz.getLocation('Europe/Copenhagen');
-    final dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss");
-    final startDate = dateFormat.parse(json['startDate'], true);
-    final endDate = dateFormat.parse(json['endDate'], true);
-
-    //temp variables used for setting timezone
-    DateTime estStartDate;
-    DateTime estEndDate;
-
-    //check if timezone is UTC
-    if (startDate.isUtc) {
-      // set the new timezone to CEST
-      estStartDate = tz.TZDateTime.from(startDate, est);
-      estEndDate = tz.TZDateTime.from(endDate, est);
-    } else {
-      //set the variables to current timezone if timezone is CEST
-      estStartDate = startDate;
-      estEndDate = endDate;
-    }
-    //--------------------------------------------------------------------------
-
     //convert full address into proper format
     String address = json['address'];
     List<String> addressParts = address.split(',');
@@ -59,12 +36,9 @@ class Task {
     return Task(
       title: json['titel'],
       description: json['description'],
-      // startDate: estStartDate,
       startDate: DateTime.parse(json['startDate']),
       citizenName: json['citizenName'],
       fullAddress: address,
-
-      // endDate: estEndDate,
       endDate: DateTime.parse(json['endDate']),
       address: Address.fromAddressString(json['address']),
     );

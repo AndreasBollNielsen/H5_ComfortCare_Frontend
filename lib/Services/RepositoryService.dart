@@ -43,16 +43,11 @@ class ReposService {
 
         //get earliest date
         DateTime earliestDate = DateTime.now();
-        // DateTime earliestDate = assignments
-        //     .map((assignment) => assignment.startDate)
-        //     .reduce((current, next) => current.isBefore(next) ? current : next);
 
         //adds task to corresponding day of the week
         for (var day in _getWeekNames(earliestDate)) {
           List<Task> tasks = [];
           for (var element in assignments) {
-            // var currentDay = _getDayName(element.startDate);
-            // var currentDay = element.startDate;
             var currentDay = DateTime(element.startDate.year,
                 element.startDate.month, element.startDate.day);
 
@@ -65,21 +60,6 @@ class ReposService {
           weekTasks
               .add(DayTasks(day: _getDayName(day), tasks: tasks, name: _name));
         }
-
-        // weekTasks.sort((a, b) {
-        //   if (a.tasks.isNotEmpty && b.tasks.isNotEmpty) {
-        //     return a.tasks[0].startDate.compareTo(b.tasks[0].startDate);
-        //   } else if (a.tasks.isNotEmpty) {
-        //     //if only a has assignments place b first
-        //     return 1;
-        //   } else if (b.tasks.isNotEmpty) {
-        //     // if only b has assignments place a first
-        //     return -1;
-        //   } else {
-        //     // if neigher has assignments preserve list
-        //     return 0;
-        //   }
-        // });
 
         //sorts tasks start time from lowest to highest numerically
         try {
@@ -173,29 +153,13 @@ class ReposService {
     return input[0].toUpperCase() + input.substring(1);
   }
 
-// Helper method to get a list of week
-  // List<String> _getWeekNames() {
-  //   return [
-  //     'Mandag',
-  //     'Tirsdag',
-  //     'Onsdag',
-  //     'Torsdag',
-  //     'Fredag',
-  //     'Lørdag',
-  //     'Søndag'
-  //   ];
-  // }
+  //method to get list of dates of the week
   List<DateTime> _getWeekNames(DateTime currentDate) {
     DateTime endDate = currentDate.add(Duration(days: 7));
-    //final List<DateTime> weekDates = [];
 
     final daysToGenerate = endDate.difference(currentDate).inDays;
     final List<DateTime> weekDates = List.generate(
         daysToGenerate, (i) => currentDate.add(Duration(days: i)));
-
-    weekDates.forEach((day) {
-      print(day.toString().split(' ')[0]);
-    });
 
     return weekDates;
   }

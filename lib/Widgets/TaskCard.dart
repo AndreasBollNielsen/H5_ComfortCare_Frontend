@@ -29,7 +29,6 @@ class TaskCard extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2,
                     height: 300,
-                    // color: Colors.red,
                     child: Wrap(
                       spacing: 80,
                       runSpacing: 0,
@@ -113,8 +112,6 @@ class TaskCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 300,
-                    // color: Colors.blue,
-
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -148,7 +145,6 @@ class TaskCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        // color: Colors.yellow,
                         child: TextFormField(
                           enabled: false,
                           style: TaskStyle.taskStyle,
@@ -170,6 +166,7 @@ class TaskCard extends StatelessWidget {
     );
   }
 
+  //method to launch google maps
   void launchURL(String destination) async {
     String encodedDestination = Uri.encodeFull(destination);
     Uri googleMapsAppUrl = Uri.parse("geo:0,0?q=$encodedDestination");

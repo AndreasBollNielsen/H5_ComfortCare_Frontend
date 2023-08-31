@@ -5,17 +5,12 @@ import 'package:http/http.dart' as http;
 import '../Model/Employee.dart';
 
 class ApiClient {
-  //home ip
-  //final String baseUrl = 'http://192.168.0.180:5270/api/Login/Employee';
-
-  //schoolIp
-  final String baseUrl = 'http://10.108.137.142:5270/api/Login/Employee';
-
-  //server
-  // final String baseUrl ='https://cc-api.nas.bavnely.dk/api/Test/LoginTestEmployee';
+  //url to api
+  final String baseUrl = 'http://halberg.it/api/Login/Employee';
 
   ApiClient();
 
+  //method to call the api
   Future<APIResponse> login(Employee employee) async {
     final url = Uri.parse(baseUrl);
     final data = jsonEncode(employee.toJson());
@@ -24,7 +19,7 @@ class ApiClient {
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)
           .timeout(Duration(seconds: 100));
-      // print(response.statusCode);
+
       if (response.statusCode == 200) {
         final result = await response.body;
         final String? jwtToken = response.headers['authorization'];

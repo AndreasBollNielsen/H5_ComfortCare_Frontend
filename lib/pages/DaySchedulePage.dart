@@ -6,7 +6,6 @@ import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
 
 class DaySchedulePage extends StatelessWidget {
-  //final int dayIndex;
   final ReposService reposService;
   final AutoLogoutService inactivityService;
   late List<Task> tasks = [];
@@ -59,9 +58,6 @@ class DaySchedulePage extends StatelessWidget {
                             SizedBox(height: 8),
                             Text(
                               task.title,
-                              // style: TextStyle(
-                              //   fontSize: 16,
-                              // ),
                             ),
                             Text('${task.citizenName}'),
                             SizedBox(height: 8),
@@ -81,11 +77,8 @@ class DaySchedulePage extends StatelessWidget {
     );
   }
 
+  //get task from repository
   Future<List<Task>> getTasksForDay(int index) async {
-    // final now = DateTime.now();
-    // final dayIndex = (now.weekday + index) % 7;
-
-    //first implementation of repoService
     var schedule = await this.reposService.GetDaySchedule();
 
     return schedule![index].tasks;

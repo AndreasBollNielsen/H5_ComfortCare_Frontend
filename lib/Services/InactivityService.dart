@@ -16,7 +16,7 @@ class AutoLogoutService {
     //reset timer if logged ind
     if (authorizationService.CheckLoginStatus()) {
       print('timer reset');
-      _timer?.cancel();
+      _timer.cancel();
       _timer = Timer(
           Duration(seconds: inactivityDuration),
           () => {
@@ -34,6 +34,6 @@ class AutoLogoutService {
 
   void StopTimer() {
     print('timer stopped');
-    _timer?.cancel();
+    _timer.cancel();
   }
 }

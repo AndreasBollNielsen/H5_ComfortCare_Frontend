@@ -1,7 +1,5 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Model/DayTasks.dart';
-import '../Widgets/MainPageContent.dart';
 import '../Widgets/DayColumn.dart';
 import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';

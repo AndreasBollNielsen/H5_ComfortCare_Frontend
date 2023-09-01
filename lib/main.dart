@@ -1,10 +1,8 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Model/Task.dart';
 import 'package:flutter_comfortcare/Widgets/InactivityDialog.dart';
 import 'Services/AuthenticationService.dart';
-//import 'Widgets/InactivityTimer.dart';
 import 'pages/LoginPage.dart';
 import 'Widgets/MainPageContent.dart';
 import 'pages/WorkSchedulePage.dart';
@@ -14,7 +12,6 @@ import 'Services/APIService.dart';
 import 'Services/InactivityService.dart';
 import 'Pages/DayTaskspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Services/InactivityService.dart';
-import '../pages/LoginPage.dart'; // Import your LoginPage or use the appropriate path
+// Import your LoginPage or use the appropriate path
 import 'LogoutDialog.dart';
 import '../Services/AuthenticationService.dart';
 

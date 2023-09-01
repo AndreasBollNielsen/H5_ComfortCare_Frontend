@@ -31,6 +31,7 @@ class AuthService {
     } catch (e) {
       print('An error occurred during login: $e');
     }
+    return null;
   }
 
   //log out user

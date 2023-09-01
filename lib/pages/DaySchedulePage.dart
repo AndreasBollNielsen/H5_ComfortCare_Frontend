@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Services/InactivityService.dart';
 import 'package:flutter_comfortcare/Widgets/DayColumn.dart';
-import '../Widgets/TaskCard.dart';
 import '../Model/Task.dart';
 import '../Services/RepositoryService.dart';
 

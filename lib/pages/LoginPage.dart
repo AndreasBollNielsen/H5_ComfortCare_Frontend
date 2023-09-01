@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comfortcare/Model/Employee.dart';
 import 'package:http/http.dart';
-import '../Widgets/MainPageContent.dart';
 import '../Services/AuthenticationService.dart';
 import '../Widgets/InternetDialog.dart';
 import '../Widgets/WrongUserDialog.dart';

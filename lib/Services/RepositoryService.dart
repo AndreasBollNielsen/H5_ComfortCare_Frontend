@@ -21,10 +21,10 @@ class ReposService {
       if (data != null) {
         //convert json to model
         Map<String, dynamic> jsonData = data;
-        final _name = jsonData['name'] as String;
+        final _name = jsonData['Name'] as String;
 
         //casting json array into dynamic list
-        final assignmentsJson = jsonData['assignments'] as List<dynamic>;
+        final assignmentsJson = jsonData['Assignments'] as List<dynamic>;
 
         //convert dynamic list into task list
         final assignments =

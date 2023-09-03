@@ -15,14 +15,14 @@ class AuthService {
   Future<APIResponse?> login(String userName, String password) async {
     try {
       final response =
-          await apiService.login(Employee(name: userName, password: password));
+          await apiService.login(Employee(name: 'RoMo', password: 'Kode1234!'));
 
       //if user is validated, data is stored locally
       if (response.statusCode == 200) {
         if (response.jwt == null) {
           response.jwt = 'test';
         }
-        await repoService.storeWeekplan(response.body, response.jwt!,userName);
+        await repoService.storeWeekplan(response.body, response.jwt!, userName);
         _isLoggedin = true;
       }
 

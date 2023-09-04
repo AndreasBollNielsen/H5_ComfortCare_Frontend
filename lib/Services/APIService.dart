@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+// import 'dart:html';
 //import 'package:crypto/crypto.dart';
 
 import 'package:flutter_comfortcare/Model/ResponseBody.dart';
@@ -27,21 +28,19 @@ class ApiClient {
 
     try {
       //call for an public key
-      final key_response = await http
-          .post(url, headers: {'Content-Type': 'application/json'}, body: data)
-          .timeout(Duration(seconds: 100));
+      final keyresponse = await http.get(url);
 
-      if (key_response.statusCode == 200) {
-        final pemString = await key_response.body;
+      if (keyresponse.statusCode == 200) {
+        //get pem string from body
+        final pem = await keyresponse.body;
 
         //convert pem string to public RSA key
-        final publicKey = rsa.RsaKeyHelper().parsePublicKeyFromPem(pemString);
-
+        final publicKey = rsa.RsaKeyHelper().parsePublicKeyFromPem(pem);
         //generate AES keys
-        key = Key.fromLength(32);
-        iv = IV.fromLength(16);
+        key = Key.fromSecureRandom(16);
+        iv = IV.fromSecureRandom(16);
 
-        //prepare data for encryption
+        //convert keys to bytes
         final aesKeyBytes = key.bytes;
         final ivBytes = iv.bytes;
 
@@ -72,6 +71,7 @@ class ApiClient {
         }
       }
 
+      //send encrypted data
       url = Uri.parse('${baseUrl}Employee');
       final response = await http
           .post(url, headers: {'Content-Type': 'application/json'}, body: data)

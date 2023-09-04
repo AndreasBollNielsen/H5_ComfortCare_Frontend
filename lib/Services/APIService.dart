@@ -27,39 +27,37 @@ class ApiClient {
     var data = jsonEncode(employee.toJson());
 
     try {
-      //call for an public key
-      final keyresponse = await http.get(url);
+      //Get public key
+      
 
-      if (keyresponse.statusCode == 200) {
+     
         //get pem string from body
-        final pem = await keyresponse.body;
+       
 
         //convert pem string to public RSA key
-        final publicKey = rsa.RsaKeyHelper().parsePublicKeyFromPem(pem);
+      
+       
         //generate AES keys
-        key = Key.fromSecureRandom(16);
-        iv = IV.fromSecureRandom(16);
+       
 
         //convert keys to bytes
-        final aesKeyBytes = key.bytes;
-        final ivBytes = iv.bytes;
+       
 
-        //encrypt keys with RSA public key
-        final encryptor = OAEPEncoding(RSAEngine())
-          ..init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
-        final encryptedAesKey = encryptor.process(aesKeyBytes);
-        final encryptedIv = encryptor.process(ivBytes);
+        //initialize encrypter
+        final encryptor = OAEPEncoding(RSAEngine())..init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
+
+         //encrypt key & Iv 
+        
 
         //convert to based64 string
-        final base64AesKey = base64Encode(encryptedAesKey);
-        final base64Iv = base64Encode(encryptedIv);
+       
 
         //send encrypted data to api
         url = Uri.parse('${baseUrl}SetAESKeys');
         final response = await http.post(
           url,
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'key': base64AesKey, 'iv': base64Iv}),
+          body: jsonEncode({'key': , 'iv': }),
         );
 
         // encrypt data symmetrically
@@ -69,7 +67,7 @@ class ApiClient {
 
           data = json.encode({'data': encryptedData.base64});
         }
-      }
+      
 
       //send encrypted data
       url = Uri.parse('${baseUrl}Employee');
